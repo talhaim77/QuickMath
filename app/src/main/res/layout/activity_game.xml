@@ -1,0 +1,239 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_app"
+    android:id="@+id/root_layout">
+
+
+    <LinearLayout
+        android:id="@+id/answersButtonsP1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="25dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:rotation="-180">
+
+        <Button
+            android:id="@+id/answer0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00BCD4"
+            android:onClick="checkAnswerP1"
+            android:tag="0"
+            android:text="Button"
+            android:textSize="24sp"
+            />
+        <Button
+            android:id="@+id/answer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FF9800"
+            android:onClick="checkAnswerP1"
+            android:tag="1"
+            android:text="Button"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/answer2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CDDC39"
+            android:onClick="checkAnswerP1"
+            android:tag="2"
+            android:text="Button"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/answer3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#3F51B5"
+            android:onClick="checkAnswerP1"
+            android:tag="3"
+            android:text="Button"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/questionTextP1"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/answersButtonsP1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bgbuttons"
+        android:text="1 + 1"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="36sp"
+        android:rotation="-180" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_below="@id/questionTextP1"
+        android:id="@+id/layout_p1"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/timeCountDownP1"
+            android:layout_width="89dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:background="@drawable/bgbuttons"
+            android:text="45"
+            android:rotation="-180"
+            android:textAlignment="center"
+            android:textColor="#9C27B0"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/questionCounterP1"
+            android:layout_width="89dp"
+            android:layout_height="55dp"
+            android:background="@android:color/holo_purple"
+            android:text="1/20"
+            android:rotation="-180"
+            android:textAlignment="center"
+            android:textColor="#C4FFFFFF"
+            android:textSize="36sp"/>
+
+        <TextView
+            android:id="@+id/scoreP1"
+            android:layout_width="89dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/bgbuttons"
+            android:text="0"
+            android:rotation="-180"
+            android:textAlignment="center"
+            android:textColor="#9C27B0"
+            android:textSize="36sp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/imgBtnPlayAgain"
+        android:layout_marginTop="70dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/layout_p1"
+        android:onClick="playAgain"
+        android:background="@drawable/button_shape"
+        android:src="@drawable/ic_replay_24dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_below="@id/imgBtnPlayAgain"
+        android:id="@+id/layout_p2"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/timeCountDownP2"
+            android:layout_width="89dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:background="@drawable/bgbuttons"
+            android:text="45"
+            android:textAlignment="center"
+            android:textColor="#9C27B0"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/questionCounterP2"
+            android:layout_width="89dp"
+            android:layout_height="55dp"
+            android:background="@android:color/holo_purple"
+            android:text="1/20"
+            android:textAlignment="center"
+            android:textColor="#C4FFFFFF"
+            android:textSize="36sp"/>
+
+        <TextView
+            android:id="@+id/scoreP2"
+            android:layout_width="89dp"
+            android:layout_height="55dp"
+            android:layout_marginLeft="35dp"
+            android:background="@drawable/bgbuttons"
+            android:text="0"
+            android:textAlignment="center"
+            android:textColor="#9C27B0"
+            android:textSize="36sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/questionTextP2"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/layout_p2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bgbuttons"
+        android:text="1 + 1"
+        android:textAlignment="center"
+        android:textColor="#9C27B0"
+        android:textSize="36sp"/>
+
+    <LinearLayout
+        android:id="@+id/answersButtonsP2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/questionTextP2"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/answer0P2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00BCD4"
+            android:onClick="checkAnswerP2"
+            android:tag="0"
+            android:text="Button"
+            android:textSize="24sp"
+            />
+        <Button
+            android:id="@+id/answer1P2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FF9800"
+            android:onClick="checkAnswerP2"
+            android:tag="1"
+            android:text="Button"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/answer2P2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CDDC39"
+            android:onClick="checkAnswerP2"
+            android:tag="2"
+            android:text="Button"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/answer3P2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#3F51B5"
+            android:onClick="checkAnswerP2"
+            android:tag="3"
+            android:text="Button"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+</RelativeLayout>
