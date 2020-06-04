@@ -67,20 +67,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     @Override
     public void onClick(View v) {
-        Intent game_intent = new Intent(MainActivity.this, GameActivity.class);
-
+        Intent intent = new Intent(MainActivity.this, GameActivity.class);
         switch (v.getId()) {
             case R.id.easy_level:
                 gameMode = "easy";
-                startActivity(game_intent);
+                intent.putExtra("level", gameMode);
+                startActivity(intent);
                 break;
             case R.id.med_level:
                 gameMode = "medium";
-                startActivity(game_intent);
-                break;
+                intent.putExtra("level", gameMode);
+                startActivity(intent);                break;
             case R.id.hard_level:
                 gameMode = "hard";
-                startActivity(game_intent);
+                intent.putExtra("level", gameMode);
+                startActivity(intent);
         }
     }
 

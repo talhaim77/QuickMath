@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,8 +31,12 @@ public class GameActivity extends AppCompatActivity {
     boolean isActive;
     int answerIndex;
     int count_the_question;
-    ArrayList<Integer> questionArray = new ArrayList<>(Arrays.asList(3,5,6,7,4,8,9));
-    ArrayList<Integer> answerArray = new ArrayList<>(Arrays.asList(32,12,53,50,23,45,21,57,23,10,6,5,7,9));
+    String gameLvl;
+    boolean isHard;
+    ArrayList<Integer> questionArray;
+    ArrayList<Integer> answerArray ;
+    ArrayList<Integer> answerArrayHigh;
+    ArrayList<Integer> answerArrayLow;
     private int scoreP2=0;
     private int scoreP1=0;
 
@@ -40,6 +45,8 @@ public class GameActivity extends AppCompatActivity {
         global = GlobalClass.getInstance();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        String game_level = getIntent().getStringExtra("level");
+        gameLvl = game_level;
         SharedPreferences sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
         global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
 
@@ -56,8 +63,28 @@ public class GameActivity extends AppCompatActivity {
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
         scoreTextP2 = findViewById(R.id.scoreP2);
+        isHard = gameLvl.equals("hard") ;
+        setArrayValues(game_level);
 
         startGame();
+    }
+
+    private void setArrayValues(String level) {
+        switch (level) {
+            case "easy":
+                questionArray = new ArrayList<>(Arrays.asList(3,5,6,7,4,8,9));
+                answerArray = new ArrayList<>(Arrays.asList(32,12,53,50,23,45,21,57,23,10,6,5,7,9));
+                break;
+            case "medium":
+                questionArray = new ArrayList<>(Arrays.asList(8,12,11,14,15,16,18,9));
+                answerArray = new ArrayList<>(Arrays.asList(102,312,103,89,45,72,57,23,10,260,250,9));
+                break;
+            case "hard":
+                questionArray = new ArrayList<>(Arrays.asList(51,79,16,27,35,28,44,55,72));
+                answerArrayHigh = new ArrayList<>(Arrays.asList(3123,2124,1415,5189,3961,2453,3332,4010,2777,2876,3468,5235));
+                answerArrayLow =  new ArrayList<>(Arrays.asList(13,24,145,89,318,243,332,110,59,58,96,31));
+                break;
+        }
     }
 
 
@@ -126,7 +153,15 @@ public class GameActivity extends AppCompatActivity {
             answerIndex = random.nextInt(4); // index of correct option
             int firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
             int secondQnInt = questionArray.get(random.nextInt(questionArray.size()));
-            String operation = "";
+            //to make it harder,when first==second --> random again one of them.
+            if(isHard&&(firstQnInt == secondQnInt))
+            {
+                Log.d("isHard","first==second");
+                do
+                   firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
+                  while(firstQnInt == secondQnInt);
+            }
+                String operation = "";
             int answer = 0;
             switch(questionType) {
                 case 0:
@@ -146,6 +181,11 @@ public class GameActivity extends AppCompatActivity {
                     break;
                 case 3:
                     //division
+                    if(firstQnInt < secondQnInt){
+                        //if first < second then swap them
+                        firstQnInt = getItself(secondQnInt, secondQnInt = firstQnInt);
+                    }
+
                     answer = firstQnInt / secondQnInt;
                     operation = "/";
                     break;
@@ -153,7 +193,15 @@ public class GameActivity extends AppCompatActivity {
             for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
                 Button childButtonP1 = (Button) answerLayoutP1.getChildAt(i);
                 Button childButtonP2 = (Button) answerLayoutP2.getChildAt(i);
-                Integer randomValue = answerArray.get(random.nextInt(answerArray.size()));
+                Integer randomValue;
+                if(gameLvl.equals("hard")){
+                    if(answer>350)
+                        randomValue = answerArrayHigh.get(random.nextInt(answerArrayHigh.size()));
+                    else
+                        randomValue = answerArrayLow.get(random.nextInt(answerArrayLow.size()));
+                }
+                else
+                    randomValue = answerArray.get(random.nextInt(answerArray.size()));
 
                 if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
                     childButtonP1.setText(String.valueOf(answer));
@@ -190,8 +238,28 @@ public class GameActivity extends AppCompatActivity {
         countDown.onFinish();
     }
 
+    // a trick to swap by reference
+    public static int getItself(int itself, int dummy)
+    {
+        return itself;
+    }
+
+
+
     private void startTimer() {
-        countDown = new CountDownTimer(30000, 1000) {
+        int millisInFuture=0;
+        switch (gameLvl) {
+            case "easy":
+                millisInFuture = 35000;
+                break;
+            case "medium":
+                millisInFuture = 40000;
+                break;
+            case "hard":
+                millisInFuture = 45000;
+                break;
+        }
+        countDown = new CountDownTimer(millisInFuture, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //amend timeCountDown on every tick
