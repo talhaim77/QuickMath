@@ -5,18 +5,16 @@
     android:background="@drawable/background_app">
 
 
-    <TextView
-        android:id="@+id/welcome_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/logo_iv"
+        android:layout_width="200dp"
+        android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="80dp"
-        android:text="Quick Math Game"
-        android:textColor="#FFF"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:scaleType="centerInside"
+        android:background="@drawable/logo_mathbattle" />
 
     <Button
         android:id="@+id/easy_level"
@@ -24,14 +22,13 @@
         android:layout_height="wrap_content"
         android:textAllCaps="false"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/welcome_text"
+        android:layout_below="@+id/logo_iv"
         android:background="@drawable/bgbuttons"
         android:lineSpacingExtra="6dp"
         android:text="EASY"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="26sp"
-        android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"/>
 
     <Button
@@ -67,7 +64,6 @@
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
-
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="wrap_content"
@@ -90,25 +86,34 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/musicBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="80dp"
+    <LinearLayout
+        android:id="@+id/sound_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:layout_below="@id/hard_level"
+        android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:background="@drawable/button_shape"/>
+        >
+        <Button
+            android:id="@+id/musicBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/button_shape"/>
 
-    <Button
-        android:id="@+id/soundBtn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_below="@id/musicBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:background="@drawable/button_shape"/>
+        <Button
+            android:id="@+id/soundBtn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_shape"/>
+
+
+
+
+    </LinearLayout>
 
 
 

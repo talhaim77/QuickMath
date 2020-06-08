@@ -5,9 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -15,10 +20,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GlobalClass global;
     SharedPreferences sharedPreferences;
     Button sound,music;
+    Button easyLvl,medLvl,hardLvl;
+    ImageView logo_iv;
+    LinearLayout sound_lt;
+    Animation from_top,from_bottom,fade,btnAnim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        logo_iv = findViewById(R.id.logo_iv);
+        sound_lt = findViewById(R.id.sound_layout);
+        easyLvl = findViewById(R.id.easy_level);
+        medLvl = findViewById(R.id.med_level);
+        hardLvl = findViewById(R.id.hard_level);
+
+        animStart();
+
         global = GlobalClass.getInstance();
         global.initializeMediaPlayer(this);
         sharedPreferences = this.getSharedPreferences("sound",this.MODE_PRIVATE);
@@ -65,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button3.setOnClickListener(this);
 
     }
+
+
+
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, GameActivity.class);
@@ -98,6 +119,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
         Log.d("onResume","in");
         global.playSound(this);
+    }
+    private void animStart() {
+        fade = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        from_top = AnimationUtils.loadAnimation(this,R.anim.from_top);
+        from_bottom = AnimationUtils.loadAnimation(this,R.anim.from_bottom);
+        btnAnim = AnimationUtils.loadAnimation(this, R.anim.btns_anim);
+
+        logo_iv.setAnimation(from_top);
+        sound_lt.setAnimation(from_bottom);
+        easyLvl.setAnimation(fade);
+        medLvl.setAnimation(fade);
+        hardLvl.setAnimation(fade);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                easyLvl.setAnimation(btnAnim);
+                medLvl.setAnimation(btnAnim);
+                hardLvl.setAnimation(btnAnim);
+            }
+        }, 1500);
+
     }
 
 }

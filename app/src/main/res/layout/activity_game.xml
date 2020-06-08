@@ -73,6 +73,7 @@
         android:rotation="-180" />
 
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,10 +96,10 @@
 
         <TextView
             android:id="@+id/questionCounterP1"
-            android:layout_width="89dp"
+            android:layout_width="105dp"
             android:layout_height="55dp"
             android:background="@android:color/holo_purple"
-            android:text="1/20"
+            android:text="1/30"
             android:rotation="-180"
             android:textAlignment="center"
             android:textColor="#C4FFFFFF"
@@ -118,6 +119,25 @@
 
     </LinearLayout>
 
+    <!--Tie 1-5 text view-->
+    <TextView
+        android:id="@+id/tieQP1"
+        android:layout_marginTop="70dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/layout_p1"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:background="@android:color/transparent"
+        android:text="Round1"
+        android:textStyle="bold"
+        android:rotation="-270"
+        android:textAlignment="center"
+        android:textColor="#080309"
+        android:textSize="40sp" />
+
+
     <ImageButton
         android:id="@+id/imgBtnPlayAgain"
         android:layout_marginTop="70dp"
@@ -128,6 +148,15 @@
         android:onClick="playAgain"
         android:background="@drawable/button_shape"
         android:src="@drawable/ic_replay_24dp"/>
+
+    <!--Animation of 3,2,1 go-->
+
+    <pl.droidsonroids.gif.GifTextView
+        android:id="@+id/start_gif"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/go321" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -150,10 +179,10 @@
 
         <TextView
             android:id="@+id/questionCounterP2"
-            android:layout_width="89dp"
+            android:layout_width="105dp"
             android:layout_height="55dp"
             android:background="@android:color/holo_purple"
-            android:text="1/20"
+            android:text="1/30"
             android:textAlignment="center"
             android:textColor="#C4FFFFFF"
             android:textSize="36sp"/>
@@ -170,6 +199,9 @@
             android:textSize="36sp" />
 
     </LinearLayout>
+
+
+
 
     <TextView
         android:id="@+id/questionTextP2"
