@@ -119,6 +119,40 @@
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_p1"
+        android:id="@+id/labelsP1"
+        android:orientation="horizontal"
+        android:rotation="-180"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:textStyle="bold"
+            android:text="Score"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:textStyle="bold"
+            android:text="Round"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Timer"
+            android:layout_marginLeft="95dp"/>
+
+    </LinearLayout>
+
+
+
     <!--Tie 1-5 text view-->
     <TextView
         android:id="@+id/tieQP1"
@@ -157,6 +191,37 @@
         android:layout_height="fill_parent"
         android:scaleType="fitXY"
         android:src="@drawable/go321" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_below="@id/imgBtnPlayAgain"
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/labelsP2"
+        android:orientation="horizontal"
+        android:visibility="invisible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textStyle="bold"
+            android:text="Timer"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="90dp"
+            android:textStyle="bold"
+            android:text="Round"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:textStyle="bold"
+            android:text="Score"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

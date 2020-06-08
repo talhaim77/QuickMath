@@ -1,6 +1,7 @@
 package com.tyl.quickmath;
 
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -10,15 +11,21 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.github.jinatonic.confetti.CommonConfetti;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -31,12 +38,12 @@ public class GameActivity extends AppCompatActivity {
     TextView scoreTextP1,scoreTextP2,tieTVP1;
     TextView questionTextP1,questionTextP2;
     TextView questionCounterP1,questionCounterP2;
-    LinearLayout answerLayoutP1,answerLayoutP2,timerLayoutP1,timerLayoutP2;
+    LinearLayout answerLayoutP1,answerLayoutP2,timerLayoutP1,timerLayoutP2, labelsP1, labelsP2;
     ImageButton playAgainButton;
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
-    int answerIndex;
+    int answerIndex,minOfTop5;
     int count_the_question,count_tie_question;
     String gameLvl;
     boolean isHard,tieScore;
@@ -46,6 +53,11 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<Integer> answerArrayLow;
     private int scoreP2=0;
     private int scoreP1=0;
+    SharedPreferences sharedPreferences;
+    private boolean new_high_score;
+    private List<Person> scoresArray;
+    private int maxScore;
+    final Handler hndlr = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +66,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         String game_level = getIntent().getStringExtra("level");
         gameLvl = game_level;
-        SharedPreferences sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
+        sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
         global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
 
         timeCountDownP1 = findViewById(R.id.timeCountDownP1);
@@ -70,6 +82,8 @@ public class GameActivity extends AppCompatActivity {
         answerLayoutP2 = findViewById(R.id.answersButtonsP2);
 
         tieTVP1 = findViewById(R.id.tieQP1);
+        labelsP1 = findViewById(R.id.labelsP1);
+        labelsP2 = findViewById(R.id.labelsP2);
 
         gifImageView = findViewById(R.id.start_gif);
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
@@ -77,7 +91,8 @@ public class GameActivity extends AppCompatActivity {
         scoreTextP2 = findViewById(R.id.scoreP2);
         isHard = gameLvl.equals("hard") ;
         setArrayValues(game_level);
-
+        scoresArray = new ArrayList<>();
+        inithighscores();
         startGame();
     }
 
@@ -130,11 +145,101 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    private void updateHighScore() {
+
+        Collections.sort(scoresArray);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("highscore1",scoresArray.get(0).getScore());
+        editor.putInt("highscore2",scoresArray.get(1).getScore());
+        editor.putInt("highscore3",scoresArray.get(2).getScore());
+        editor.putInt("highscore4",scoresArray.get(3).getScore());
+        editor.putInt("highscore5",scoresArray.get(4).getScore());
+
+        editor.putString("score1_name",scoresArray.get(0).getName());
+        editor.putString("score2_name",scoresArray.get(1).getName());
+        editor.putString("score3_name",scoresArray.get(2).getName());
+        editor.putString("score4_name",scoresArray.get(3).getName());
+        editor.putString("score5_name",scoresArray.get(4).getName());
+        editor.commit();
+    }
+
+    private void newHighScoreCheck() {
+        //int maxScore = Integer.max(scoreP1,scoreP2);
+        maxScore = (scoreP1 > scoreP2 ? scoreP1 : scoreP2) ;
+        minOfTop5 = sharedPreferences.getInt("highscore5",0);
+
+        if ( maxScore > minOfTop5)
+            new_high_score = true;
+
+        if (new_high_score) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+                    final View dialogview = getLayoutInflater().inflate(R.layout.new_high_score, null);
+                    builder.setView(dialogview).setCancelable(false);
+                    TextView dialogScoreTv = dialogview.findViewById(R.id.myhighscore);
+                    dialogScoreTv.setText(Integer.toString(maxScore));
+                    final EditText userEt = dialogview.findViewById(R.id.username);
+                    final AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+                    final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
+
+                    final Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonConfetti.rainingConfetti(container, new int[] { Color.BLUE ,Color.YELLOW, Color.RED, Color.GREEN})
+                                    .infinite();
+                        }
+                    };
+                    hndlr.postDelayed(r,600 );
+
+                    ImageButton returnBtn = dialogview.findViewById(R.id.return_to_game);
+                    returnBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //to do : update shared prefferences with name and picture
+                            String username = userEt.getText().toString();
+                            scoresArray.add(5,new Person(username,maxScore));
+                            updateHighScore();
+                            maxScore = 0;
+                            new_high_score = false;
+                            dialog.dismiss();
+                        }
+                    });
+
+                }
+            }, 0);
+        }
+        else //game over,do nothing
+            {
+            return;
+        }
+
+
+    }
+
+    private void inithighscores() {
+        minOfTop5 = sharedPreferences.getInt("highscore5",0);
+        scoresArray.add(0,new Person(sharedPreferences.getString("score1_name","Player"),sharedPreferences.getInt("highscore1",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score2_name","Player"),sharedPreferences.getInt("highscore2",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score3_name","Player"),sharedPreferences.getInt("highscore3",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score4_name","Player"),sharedPreferences.getInt("highscore4",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score5_name","Player"),sharedPreferences.getInt("highscore5",0)));
+    }
+
     private void startGame() {
         playGif();
         //Hide useless buttons
         hideView(playAgainButton);
 
+
+//        showView(labelsP1);
+//        showView(labelsP2);
         if(!tieScore) {
             //3,2,1 -->go
             hideViewsForAnim();
@@ -160,6 +265,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void hideViewsForAnim() {
+        hideView(labelsP1);
+        hideView(labelsP2);
         hideView(timerLayoutP1);
         hideView(timerLayoutP2);
         hideView(questionTextP1);
@@ -168,6 +275,8 @@ public class GameActivity extends AppCompatActivity {
         hideView(answerLayoutP2);
     }
     private void showViewsForAnim() {
+        labelsP1.setVisibility(View.VISIBLE);
+        labelsP2.setVisibility(View.VISIBLE);
         showView(timerLayoutP1);
         showView(timerLayoutP2);
         showView(questionTextP1);
@@ -227,6 +336,7 @@ public class GameActivity extends AppCompatActivity {
             count_tie_question=0;
             //Show playAgain button
             hideView(tieTVP1);
+            newHighScoreCheck();
             showView(playAgainButton);
             //Set gamestate to inactive
             isActive = false;
@@ -324,6 +434,8 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+
+
     private void endGame() {
         countDown.cancel();
         countDown.onFinish();
@@ -374,6 +486,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 else{
                     //Show playAgain button
+                    newHighScoreCheck();
                     showView(playAgainButton);
                     //Set gamestate to inactive
                     isActive = false;
