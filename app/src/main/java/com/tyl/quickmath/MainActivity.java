@@ -13,6 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -20,21 +21,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GlobalClass global;
     SharedPreferences sharedPreferences;
     Button sound,music;
-    Button easyLvl,medLvl,hardLvl,topTable;
+    Button easyLvlP1,easyLvlP2,
+            medLvlP1,medLvlP2,
+            hardLvlP1,hardLvlP2;
+    Button topTable;
     ImageView logo_iv;
     LinearLayout sound_lt;
     Animation from_top,from_bottom,fade,btnAnim;
-
+    private TextView easyTV,medTV,hardTV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         logo_iv = findViewById(R.id.logo_iv);
         sound_lt = findViewById(R.id.sound_layout);
-        easyLvl = findViewById(R.id.easy_level);
-        medLvl = findViewById(R.id.med_level);
-        hardLvl = findViewById(R.id.hard_level);
+        easyLvlP1 = findViewById(R.id.onePlayerEasy);
+        easyLvlP2 = findViewById(R.id.twoPlayerEasy);
+        medLvlP1 = findViewById(R.id.onePlayerMid);
+        medLvlP2 = findViewById(R.id.twoPlayerMid);
+        hardLvlP1 = findViewById(R.id.onePlayerHard);
+        hardLvlP2 = findViewById(R.id.twoPlayerHard);
+        topTable = findViewById(R.id.top_table_activity);
 
+         easyTV = findViewById(R.id.easy_level);
+         medTV = findViewById(R.id.med_level);
+         hardTV = findViewById(R.id.hard_level);
         animStart();
 
         global = GlobalClass.getInstance();
@@ -74,15 +85,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        Button button1 = findViewById(R.id.easy_level);
-        Button button2 = findViewById(R.id.med_level);
-        Button button3 = findViewById(R.id.hard_level);
-        Button topTable = findViewById(R.id.top_table_activity);
 
 
-        button1.setOnClickListener(this);
-        button2.setOnClickListener(this);
-        button3.setOnClickListener(this);
+
+        easyLvlP1.setOnClickListener(this);
+        easyLvlP2.setOnClickListener(this);
+        medLvlP1.setOnClickListener(this);
+        medLvlP2.setOnClickListener(this);
+        hardLvlP1.setOnClickListener(this);
+        hardLvlP2.setOnClickListener(this);
         topTable.setOnClickListener(this);
     }
 
@@ -90,23 +101,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        Intent intentP1 = new Intent(MainActivity.this, GameActivitySolo.class);
+        Intent intentP2 = new Intent(MainActivity.this, GameActivity.class);
         Intent top_intent = new Intent(MainActivity.this, TopTableActivity.class);
         switch (v.getId()) {
-            case R.id.easy_level:
+            case R.id.onePlayerEasy:
                 gameMode = "easy";
-                intent.putExtra("level", gameMode);
-                startActivity(intent);
+                intentP1.putExtra("level", gameMode);
+                startActivity(intentP1);
                 break;
-            case R.id.med_level:
+            case R.id.twoPlayerEasy:
+                gameMode = "easy";
+                intentP2.putExtra("level", gameMode);
+                startActivity(intentP2);
+                break;
+            case R.id.onePlayerMid:
                 gameMode = "medium";
-                intent.putExtra("level", gameMode);
-                startActivity(intent);
+                intentP1.putExtra("level", gameMode);
+                startActivity(intentP1);
                 break;
-            case R.id.hard_level:
+            case R.id.twoPlayerMid:
+                gameMode = "medium";
+                intentP2.putExtra("level", gameMode);
+                startActivity(intentP2);
+                break;
+            case R.id.onePlayerHard:
                 gameMode = "hard";
-                intent.putExtra("level", gameMode);
-                startActivity(intent);
+                intentP1.putExtra("level", gameMode);
+                startActivity(intentP1);
+                break;
+            case R.id.twoPlayerHard:
+                gameMode = "hard";
+                intentP2.putExtra("level", gameMode);
+                startActivity(intentP2);
                 break;
             case R.id.top_table_activity:
                 startActivity(top_intent);
@@ -136,17 +163,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         logo_iv.setAnimation(from_top);
         sound_lt.setAnimation(from_bottom);
-        easyLvl.setAnimation(fade);
-        medLvl.setAnimation(fade);
-        hardLvl.setAnimation(fade);
+
+        easyTV.setAnimation(fade);
+        medTV.setAnimation(fade);
+        hardTV.setAnimation(fade);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                easyLvl.setAnimation(btnAnim);
-                medLvl.setAnimation(btnAnim);
-                hardLvl.setAnimation(btnAnim);
+                easyTV.setAnimation(btnAnim);
+                medTV.setAnimation(btnAnim);
+                hardTV.setAnimation(btnAnim);
             }
         }, 1500);
 
