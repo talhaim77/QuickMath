@@ -101,13 +101,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.med_level:
                 gameMode = "medium";
                 intent.putExtra("level", gameMode);
-                startActivity(intent);                break;
+                startActivity(intent);
+                break;
             case R.id.hard_level:
                 gameMode = "hard";
                 intent.putExtra("level", gameMode);
                 startActivity(intent);
+                break;
             case R.id.top_table_activity:
                 startActivity(top_intent);
+                break;
         }
     }
 

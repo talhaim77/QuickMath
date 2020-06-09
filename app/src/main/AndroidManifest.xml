@@ -16,6 +16,9 @@
         <activity
             android:name=".TopTableActivity"/>
 
+        <activity
+            android:name=".GameActivitySolo"/>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -5,32 +5,40 @@
     android:background="@drawable/background_app"
     android:id="@+id/root_layout">
 
+    <pl.droidsonroids.gif.GifTextView
+        android:id="@+id/start_gif"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/go321" />
 
     <LinearLayout
         android:id="@+id/answersButtonsP1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="25dp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal"
-        android:rotation="-180">
+        android:rotation="-180"
+        android:weightSum="4"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/answer0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00BCD4"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape"
             android:onClick="checkAnswerP1"
             android:tag="0"
             android:text="Button"
-            android:textSize="24sp"
-            />
+            android:textSize="24sp"/>
+
         <Button
             android:id="@+id/answer1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FF9800"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_orange"
             android:onClick="checkAnswerP1"
             android:tag="1"
             android:text="Button"
@@ -38,9 +46,10 @@
 
         <Button
             android:id="@+id/answer2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#CDDC39"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_green"
             android:onClick="checkAnswerP1"
             android:tag="2"
             android:text="Button"
@@ -48,9 +57,10 @@
 
         <Button
             android:id="@+id/answer3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#3F51B5"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_darkblue"
             android:onClick="checkAnswerP1"
             android:tag="3"
             android:text="Button"
@@ -58,67 +68,83 @@
             android:textSize="24sp" />
     </LinearLayout>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@id/answersButtonsP1"
+        android:id="@+id/space1"/>
+
     <TextView
         android:id="@+id/questionTextP1"
-        android:layout_width="160dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@id/answersButtonsP1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_below="@id/space1"
         android:background="@drawable/bgbuttons"
         android:text="1 + 1"
         android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:textColor="#9C27B0"
         android:textSize="36sp"
-        android:rotation="-180" />
+        android:rotation="-180"
+        android:visibility="visible"/>
 
-
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/questionTextP1"
+        android:id="@+id/space2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_below="@id/questionTextP1"
+        android:layout_below="@id/space2"
         android:id="@+id/layout_p1"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/timeCountDownP1"
-            android:layout_width="89dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
-            android:background="@drawable/bgbuttons"
-            android:text="45"
-            android:rotation="-180"
-            android:textAlignment="center"
-            android:textColor="#9C27B0"
-            android:textSize="36sp" />
-
-        <TextView
-            android:id="@+id/questionCounterP1"
-            android:layout_width="105dp"
-            android:layout_height="55dp"
-            android:background="@android:color/holo_purple"
-            android:text="1/30"
-            android:rotation="-180"
-            android:textAlignment="center"
-            android:textColor="#C4FFFFFF"
-            android:textSize="36sp"/>
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/scoreP1"
-            android:layout_width="89dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="35dp"
-            android:background="@drawable/bgbuttons"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:text="0"
             android:rotation="-180"
-            android:textAlignment="center"
+            android:gravity="center"
             android:textColor="#9C27B0"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bgbuttons"/>
+
+        <TextView
+            android:id="@+id/questionCounterP1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:background="@android:color/holo_purple"
+            android:text="1/20"
+            android:rotation="-180"
+            android:gravity="center"
+            android:textColor="#C4FFFFFF"
+            android:textSize="36sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:id="@+id/timeCountDownP1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="45"
+            android:rotation="-180"
+            android:gravity="center"
+            android:textColor="#9C27B0"
+            android:textSize="36sp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bgbuttons"/>
 
     </LinearLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -133,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:textStyle="bold"
-            android:text="Score"/>
+            android:text="Timer"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -145,21 +171,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Timer"
+            android:text="Score"
             android:layout_marginLeft="95dp"/>
 
     </LinearLayout>
 
-
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/labelsP1"
+        android:id="@+id/space3"/>
 
     <!--Tie 1-5 text view-->
+    <!--android:visibility="invisible"-->
+
     <TextView
         android:id="@+id/tieQP1"
-        android:layout_marginTop="70dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/layout_p1"
+        android:layout_below="@id/space3"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
         android:background="@android:color/transparent"
@@ -168,34 +200,35 @@
         android:rotation="-270"
         android:textAlignment="center"
         android:textColor="#080309"
-        android:textSize="40sp" />
+        android:textSize="35sp" />
 
 
     <ImageButton
         android:id="@+id/imgBtnPlayAgain"
-        android:layout_marginTop="70dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/layout_p1"
+        android:layout_below="@id/space3"
         android:onClick="playAgain"
         android:background="@drawable/button_shape"
         android:src="@drawable/ic_replay_24dp"/>
 
     <!--Animation of 3,2,1 go-->
 
-    <pl.droidsonroids.gif.GifTextView
-        android:id="@+id/start_gif"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/go321" />
+
+
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/tieQP1"
+        android:id="@+id/space4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_below="@id/imgBtnPlayAgain"
+        android:layout_marginTop="0dp"
+        android:layout_below="@id/space4"
         android:layout_marginLeft="48dp"
         android:layout_marginRight="30dp"
         android:id="@+id/labelsP2"
@@ -222,88 +255,101 @@
 
 
     <LinearLayout
+        android:id="@+id/layout_p2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
-        android:layout_below="@id/imgBtnPlayAgain"
-        android:id="@+id/layout_p2"
-        android:orientation="horizontal">
+        android:layout_below="@id/labelsP2"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
         <TextView
             android:id="@+id/timeCountDownP2"
-            android:layout_width="89dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="35dp"
-            android:layout_marginRight="35dp"
-            android:background="@drawable/bgbuttons"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="45"
-            android:textAlignment="center"
             android:textColor="#9C27B0"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:background="@drawable/bgbuttons"/>
 
         <TextView
             android:id="@+id/questionCounterP2"
-            android:layout_width="105dp"
-            android:layout_height="55dp"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
             android:background="@android:color/holo_purple"
-            android:text="1/30"
-            android:textAlignment="center"
+            android:text="1/20"
+            android:gravity="center"
             android:textColor="#C4FFFFFF"
-            android:textSize="36sp"/>
+            android:textSize="36sp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"/>
 
         <TextView
             android:id="@+id/scoreP2"
-            android:layout_width="89dp"
-            android:layout_height="55dp"
-            android:layout_marginLeft="35dp"
-            android:background="@drawable/bgbuttons"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="0"
-            android:textAlignment="center"
             android:textColor="#9C27B0"
-            android:textSize="36sp" />
-
+            android:textSize="36sp"
+            android:background="@drawable/bgbuttons"/>
     </LinearLayout>
 
-
-
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/layout_p2"
+        android:id="@+id/space5"/>
 
     <TextView
         android:id="@+id/questionTextP2"
-        android:layout_width="160dp"
+        android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@id/layout_p2"
+        android:layout_below="@id/space5"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:background="@drawable/bgbuttons"
         android:text="1 + 1"
         android:textAlignment="center"
         android:textColor="#9C27B0"
         android:textSize="36sp"/>
 
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_below="@id/questionTextP2"
+        android:id="@+id/space6"/>
+
     <LinearLayout
         android:id="@+id/answersButtonsP2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/questionTextP2"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:layout_below="@id/space6"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/answer0P2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00BCD4"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_shape"
             android:onClick="checkAnswerP2"
             android:tag="0"
             android:text="Button"
-            android:textSize="24sp"
-            />
+            android:textSize="24sp" />
+
         <Button
             android:id="@+id/answer1P2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FF9800"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_orange"
             android:onClick="checkAnswerP2"
             android:tag="1"
             android:text="Button"
@@ -311,9 +357,10 @@
 
         <Button
             android:id="@+id/answer2P2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#CDDC39"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_green"
             android:onClick="checkAnswerP2"
             android:tag="2"
             android:text="Button"
@@ -321,14 +368,16 @@
 
         <Button
             android:id="@+id/answer3P2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#3F51B5"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_shape_darkblue"
             android:onClick="checkAnswerP2"
             android:tag="3"
             android:text="Button"
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
     </LinearLayout>
+
 
 </RelativeLayout>
