@@ -126,8 +126,7 @@
         android:layout_below="@id/layout_p1"
         android:id="@+id/labelsP1"
         android:orientation="horizontal"
-        android:rotation="-180"
-        android:visibility="invisible">
+        android:rotation="-180">
 
         <TextView
             android:layout_width="wrap_content"
@@ -200,8 +199,7 @@
         android:layout_marginLeft="48dp"
         android:layout_marginRight="30dp"
         android:id="@+id/labelsP2"
-        android:orientation="horizontal"
-        android:visibility="invisible">
+        android:orientation="horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

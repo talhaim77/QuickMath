@@ -290,8 +290,8 @@ public class GameActivity extends AppCompatActivity {
         hideView(answerLayoutP2);
     }
     private void showViewsForAnim() {
-        labelsP1.setVisibility(View.VISIBLE);
-        labelsP2.setVisibility(View.VISIBLE);
+        showView(labelsP1);
+        showView(labelsP2);
         showView(timerLayoutP1);
         showView(timerLayoutP2);
         showView(questionTextP1);
