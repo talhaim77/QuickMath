@@ -61,38 +61,29 @@
         android:textColor="@color/colorPrimary"
         android:textSize="26sp" />
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/top_table_activity"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="vertical"
-        android:weightSum="10"
-        android:gravity="center">
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/hard_level"
+        android:background="@drawable/bgbuttons"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:lineSpacingExtra="6dp"
+        android:text="Best Players"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="26sp" />
 
-
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/sound_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@id/hard_level"
-        android:layout_marginTop="40dp"
+        android:layout_below="@id/top_table_activity"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         >
         <Button
@@ -109,9 +100,6 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="@drawable/button_shape"/>
-
-
-
 
     </LinearLayout>
 

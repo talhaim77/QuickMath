@@ -14,22 +14,24 @@
         android:layout_gravity="center">
 
         <TextView
+            android:id="@+id/player_name_cell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginTop="5dp"
-            android:textSize="20sp"
+            android:layout_weight="1"
+            android:fontFamily="@font/paprika"
             android:text="Name"
-            android:id="@+id/country_name" />
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/player_score_cell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="20sp"
-            android:text="Score"
             android:layout_marginTop="5dp"
-            android:id="@+id/country_population"/>
+            android:layout_weight="1"
+            android:fontFamily="@font/paprika"
+            android:text="Score"
+            android:textSize="20sp" />
 
     </LinearLayout>
 

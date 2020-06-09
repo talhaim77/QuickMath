@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
-    int answerIndex,minOfTop5;
+    int answerIndex, minOfTop10;
     int count_the_question,count_tie_question;
     String gameLvl;
     boolean isHard,tieScore;
@@ -149,27 +149,37 @@ public class GameActivity extends AppCompatActivity {
 
         Collections.sort(scoresArray);
 
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt("highscore1",scoresArray.get(0).getScore());
         editor.putInt("highscore2",scoresArray.get(1).getScore());
         editor.putInt("highscore3",scoresArray.get(2).getScore());
         editor.putInt("highscore4",scoresArray.get(3).getScore());
         editor.putInt("highscore5",scoresArray.get(4).getScore());
+        editor.putInt("highscore6",scoresArray.get(5).getScore());
+        editor.putInt("highscore7",scoresArray.get(6).getScore());
+        editor.putInt("highscore8",scoresArray.get(7).getScore());
+        editor.putInt("highscore9",scoresArray.get(8).getScore());
+        editor.putInt("highscore10",scoresArray.get(9).getScore());
 
         editor.putString("score1_name",scoresArray.get(0).getName());
         editor.putString("score2_name",scoresArray.get(1).getName());
         editor.putString("score3_name",scoresArray.get(2).getName());
         editor.putString("score4_name",scoresArray.get(3).getName());
         editor.putString("score5_name",scoresArray.get(4).getName());
+        editor.putString("score6_name",scoresArray.get(5).getName());
+        editor.putString("score7_name",scoresArray.get(6).getName());
+        editor.putString("score8_name",scoresArray.get(7).getName());
+        editor.putString("score9_name",scoresArray.get(8).getName());
+        editor.putString("score10_name",scoresArray.get(9).getName());
         editor.commit();
     }
 
     private void newHighScoreCheck() {
         //int maxScore = Integer.max(scoreP1,scoreP2);
         maxScore = (scoreP1 > scoreP2 ? scoreP1 : scoreP2) ;
-        minOfTop5 = sharedPreferences.getInt("highscore5",0);
+        minOfTop10 = sharedPreferences.getInt("highscore10",0);
 
-        if ( maxScore > minOfTop5)
+        if ( maxScore > minOfTop10)
             new_high_score = true;
 
         if (new_high_score) {
@@ -224,12 +234,17 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initScoresTable() {
-        minOfTop5 = sharedPreferences.getInt("highscore5",0);
+        minOfTop10 = sharedPreferences.getInt("highscore10",0);
         scoresArray.add(0,new Person(sharedPreferences.getString("score1_name","Player"),sharedPreferences.getInt("highscore1",0)));
         scoresArray.add(new Person(sharedPreferences.getString("score2_name","Player"),sharedPreferences.getInt("highscore2",0)));
         scoresArray.add(new Person(sharedPreferences.getString("score3_name","Player"),sharedPreferences.getInt("highscore3",0)));
         scoresArray.add(new Person(sharedPreferences.getString("score4_name","Player"),sharedPreferences.getInt("highscore4",0)));
         scoresArray.add(new Person(sharedPreferences.getString("score5_name","Player"),sharedPreferences.getInt("highscore5",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score6_name","Player"),sharedPreferences.getInt("highscore6",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score7_name","Player"),sharedPreferences.getInt("highscore7",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score8_name","Player"),sharedPreferences.getInt("highscore8",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score9_name","Player"),sharedPreferences.getInt("highscore9",0)));
+        scoresArray.add(new Person(sharedPreferences.getString("score10_name","Player"),sharedPreferences.getInt("highscore10",0)));
     }
 
     private void startGame() {

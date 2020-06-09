@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GlobalClass global;
     SharedPreferences sharedPreferences;
     Button sound,music;
-    Button easyLvl,medLvl,hardLvl;
+    Button easyLvl,medLvl,hardLvl,topTable;
     ImageView logo_iv;
     LinearLayout sound_lt;
     Animation from_top,from_bottom,fade,btnAnim;
@@ -77,11 +77,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button button1 = findViewById(R.id.easy_level);
         Button button2 = findViewById(R.id.med_level);
         Button button3 = findViewById(R.id.hard_level);
+        Button topTable = findViewById(R.id.top_table_activity);
+
 
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
         button3.setOnClickListener(this);
-
+        topTable.setOnClickListener(this);
     }
 
 
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, GameActivity.class);
+        Intent top_intent = new Intent(MainActivity.this, TopTableActivity.class);
         switch (v.getId()) {
             case R.id.easy_level:
                 gameMode = "easy";
@@ -103,6 +106,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 gameMode = "hard";
                 intent.putExtra("level", gameMode);
                 startActivity(intent);
+            case R.id.top_table_activity:
+                startActivity(top_intent);
         }
     }
 
