@@ -92,7 +92,7 @@ public class GameActivity extends AppCompatActivity {
         isHard = gameLvl.equals("hard") ;
         setArrayValues(game_level);
         scoresArray = new ArrayList<>();
-        inithighscores();
+        initScoresTable();
         startGame();
     }
 
@@ -223,7 +223,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    private void inithighscores() {
+    private void initScoresTable() {
         minOfTop5 = sharedPreferences.getInt("highscore5",0);
         scoresArray.add(0,new Person(sharedPreferences.getString("score1_name","Player"),sharedPreferences.getInt("highscore1",0)));
         scoresArray.add(new Person(sharedPreferences.getString("score2_name","Player"),sharedPreferences.getInt("highscore2",0)));
