@@ -386,7 +386,6 @@ public class GameActivity extends AppCompatActivity {
         else {
             Random random = new Random();
             // 0 is addition, 1 is subtraction, 2 is multiplication and 3 is divide
-            int questionType = random.nextInt(4); // get question type
             answerIndex = random.nextInt(4); // index of correct option
             int firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
             int secondQnInt = questionArray.get(random.nextInt(questionArray.size()));
@@ -400,58 +399,91 @@ public class GameActivity extends AppCompatActivity {
             String operation = "";
             int answer = 0;
             double hardAnswer = 0;
-
-            switch(answerIndex) {
-                case 0:
-                    //addition
-                    answer = firstQnInt + secondQnInt;
-                    operation = "+";
-                    break;
-                case 1:
-                    //subtraction
-                    if (firstQnInt < secondQnInt) {
-                        firstQnInt = getItself(secondQnInt, secondQnInt = firstQnInt);
-                    }
-                    answer = firstQnInt - secondQnInt;
-                    operation = "-";
-                    break;
-                case 2:
-                    //multiplication
-                    answer = firstQnInt * secondQnInt;
-                    operation = "x";
-                    break;
-                case 3:
-                    if (firstQnInt < secondQnInt) {
-                        //if first < second then swap them
-                        firstQnInt = getItself((int) secondQnInt, secondQnInt = (int) firstQnInt);
-                    }
-                    hardAnswer = (double)firstQnInt / secondQnInt;
-                    operation = "/";
-                    break;
+            int questionType = 0;
+            if(gameLvl.equals("easy")){
+                questionType = random.nextInt(2); // get question type
+                switch(questionType) {
+                    case 0:
+                        //addition
+                        answer = firstQnInt + secondQnInt;
+                        operation = "+";
+                        break;
+                    case 1:
+                        //subtraction
+                        if (firstQnInt < secondQnInt) {
+                            firstQnInt = getItself(secondQnInt, secondQnInt = firstQnInt);
+                        }
+                        answer = firstQnInt - secondQnInt;
+                        operation = "-";
+                        break;
+                }
             }
 
+            else if(gameLvl.equals("medium")){
+                questionType = random.nextInt(3); // get question type
+                switch(questionType) {
+                    case 0:
+                        //addition
+                        answer = firstQnInt + secondQnInt;
+                        operation = "+";
+                        break;
+                    case 1:
+                        //subtraction
+                        if (firstQnInt < secondQnInt) {
+                            firstQnInt = getItself(secondQnInt, secondQnInt = firstQnInt);
+                        }
+                        answer = firstQnInt - secondQnInt;
+                        operation = "-";
+                        break;
+                    case 2:
+                        //multiplication
+                        answer = firstQnInt * secondQnInt;
+                        operation = "x";
+                        break;
+                }
+            }
+            else {
+                questionType = random.nextInt(2); // get question type
+                switch(questionType) {
+                    case 0:
+                        //multiplication
+                        answer = firstQnInt * secondQnInt;
+                        operation = "x";
+                        break;
+                    case 1:
+                        if (firstQnInt < secondQnInt) {
+                            //if first < second then swap them
+                            firstQnInt = getItself((int) secondQnInt, secondQnInt = (int) firstQnInt);
+                        }
+                        hardAnswer = (double)firstQnInt / secondQnInt;
+                        operation = "/";
+                        break;
+                }
+            }
 
             Random r = new Random();
-            int rnd = 1;
-            if(isHard&&(answerIndex==3)){
+            int rnd = 0;
+            if(isHard){
                 numArrays.doubleRandomNumbers = r.doubles(8, answer,answer+2).toArray();
+                numArrays.RandomNumbers = r.ints(8, answer+1,answer+8).toArray();
             }
             else{
                     numArrays.RandomNumbers = r.ints(8, answer+1,answer+8).toArray();
             }
+            uniqueArrays();
             if(isHard){
                 for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
                     Button childButtonP1 = (Button) answerLayoutP1.getChildAt(i);
                     Button childButtonP2 = (Button) answerLayoutP2.getChildAt(i);
                     Double randomValueHard = 0.0 ;
 
-                    if(answerIndex == 2) // is '*'
+                    if(questionType == 0) // is '*'
                         randomValueHard =(double)numArrays.RandomNumbers[rnd++];
                     else
                     randomValueHard = numArrays.doubleRandomNumbers[rnd++];
 
                     if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
-                        if(answerIndex == 2) { // is '*'
+                        if(questionType == 1) { // is '*'
                            // hardAnswer =(double) answer;
                             childButtonP1.setText(String.valueOf(answer));
                         }
@@ -461,7 +493,7 @@ public class GameActivity extends AppCompatActivity {
                         if (randomValueHard == hardAnswer) {
                             randomValueHard += random.nextInt(5);
                         }
-                        if(answerIndex == 2) // is '*'
+                        if(questionType == 0) // is '*'
                         {
                             int temp=randomValueHard.intValue();
                             childButtonP1.setText(String.valueOf(temp));
@@ -472,7 +504,7 @@ public class GameActivity extends AppCompatActivity {
                     }
                     // second player-set a 4 numbers that can be the answer.
                     if (childButtonP2.getTag().toString().equals(Integer.toString(answerIndex))) {
-                        if(answerIndex == 2) { // is '*'
+                        if(questionType == 0) { // is '*'
                             //hardAnswer = (double) answer;
                             childButtonP2.setText(String.valueOf(answer));
                         }
@@ -482,14 +514,13 @@ public class GameActivity extends AppCompatActivity {
                         if (randomValueHard == hardAnswer) {
                             randomValueHard += random.nextInt(5);
                         }
-                        if(answerIndex == 2) // is '*'
+                        if(questionType == 0) // is '*'
                         {
                             int temp=randomValueHard.intValue();
                             childButtonP2.setText(String.valueOf(temp));
                         }
                         else
                         childButtonP2.setText((new DecimalFormat("##.###").format(randomValueHard)));
-
                     }
                 }
             }
@@ -498,10 +529,10 @@ public class GameActivity extends AppCompatActivity {
                     Button childButtonP1 = (Button) answerLayoutP1.getChildAt(i);
                     Button childButtonP2 = (Button) answerLayoutP2.getChildAt(i);
                     Integer randomValue = 0;
-                    randomValue = numArrays.RandomNumbers[++rnd];
                     if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
                         childButtonP1.setText(String.valueOf(answer));
                     } else {
+                        randomValue = numArrays.RandomNumbers[++rnd];
                         if (randomValue == answer) {
                             randomValue += random.nextInt(5);
                         }
@@ -511,15 +542,10 @@ public class GameActivity extends AppCompatActivity {
                     if (childButtonP2.getTag().toString().equals(Integer.toString(answerIndex))) {
                         childButtonP2.setText(String.valueOf(answer));
                     } else {
-                        if (randomValue == answer) {
-                            randomValue += random.nextInt(5);
-                        }
                         childButtonP2.setText(String.valueOf(randomValue));
                     }
                 }
             }
-
-
 
             //Set qn text
             questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
@@ -539,6 +565,15 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+
+    private void uniqueArrays() {
+        if(numArrays.RandomNumbers != null){
+            Arrays.sort(numArrays.RandomNumbers);
+            for(int i=0;i<numArrays.RandomNumbers.length - 1;i++){
+                    numArrays.RandomNumbers[i] = numArrays.RandomNumbers[i]+i ;
+            }
+        }
+    }
 
     private void endGame() {
         countDown.cancel();
@@ -561,7 +596,7 @@ public class GameActivity extends AppCompatActivity {
                 millisInFuture = 50000;
                 break;
             case "hard":
-                millisInFuture = 50000;
+                millisInFuture = 500000;
                 break;
         }
 
