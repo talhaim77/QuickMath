@@ -1,8 +1,10 @@
 package com.tyl.quickmath;
 
+
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -17,11 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.jinatonic.confetti.CommonConfetti;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,12 +35,14 @@ import java.util.Random;
 
 import pl.droidsonroids.gif.GifTextView;
 
+////
+
 public class GameActivity extends AppCompatActivity {
     GlobalClass global;
     MediaPlayer mediaPlayer;
     TextView timeCountDownP1,timeCountDownP2;
     TextView scoreTextP1,scoreTextP2,tieTVP1;
-    TextView questionTextP1,questionTextP2;
+    TextView questionTextP1,questionTextP2,questionTextP3;
     TextView questionCounterP1,questionCounterP2;
     LinearLayout answerLayoutP1,answerLayoutP2,timerLayoutP1,timerLayoutP2, labelsP1, labelsP2;
     ImageButton playAgainButton;
@@ -48,9 +54,14 @@ public class GameActivity extends AppCompatActivity {
     String gameLvl;
     boolean isHard,tieScore;
     ArrayList<Integer> questionArray;
-    ArrayList<Integer> answerArray ;
-    ArrayList<Integer> answerArrayHigh;
-    ArrayList<Integer> answerArrayLow;
+    //ArrayList<Integer> davionQuestionArray;
+    //ArrayList<Integer> davionSecQuestionArray;
+
+
+
+    //ArrayList<Integer> davionAnswerArray ;
+    AnswerArrays numArrays,medArrays,hardArrays;
+    //ArrayList<Integer> answerArrayLow;
     private int scoreP2=0;
     private int scoreP1=0;
     SharedPreferences sharedPreferences;
@@ -89,11 +100,31 @@ public class GameActivity extends AppCompatActivity {
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
         scoreTextP2 = findViewById(R.id.scoreP2);
-        isHard = gameLvl.equals("hard") ;
+        isHard = gameLvl.equals("hard");
         setArrayValues(game_level);
         scoresArray = new ArrayList<>();
         initScoresTable();
+        initArraysLvl();
         startGame();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void initArraysLvl() {
+        //init arrays of the easy level
+          numArrays = new AnswerArrays();
+//        easyArrays.setAnswerArrayLow(new ArrayList<>(Arrays.asList(3,4,5,6,7,8,9,10)));
+//        easyArrays.setAnswerArrayMid(new ArrayList<>(Arrays.asList(11,13,15,16,18,20,23,27,21,25)));
+
+        //init arrays of the medium level
+          medArrays = new AnswerArrays();
+//        medArrays.setAnswerArrayLow(new ArrayList<>(Arrays.asList()));
+//        medArrays.setAnswerArrayMid(new ArrayList<>(Arrays.asList(11,13,15,16,18,20,23,27,21,25)));
+//        medArrays.setAnswerArrayHigh(new ArrayList<>(Arrays.asList(28,29,30,31,33,34,37,38)));
+//        Random r = new Random();
+//        medArrays.RandomNumbersLow = r.ints(10, 1, 10).toArray();
+//        medArrays.RandomNumbersMid = r.ints(10, 1, 10).toArray();
+//        medArrays.RandomNumbersHigh = r.ints(10, 1, 10).toArray();
+
     }
 
     public void playAgainTie() {
@@ -106,27 +137,21 @@ public class GameActivity extends AppCompatActivity {
     private void setArrayValues(String level) {
         switch (level) {
             case "easy":
-                questionArray = new ArrayList<>(Arrays.asList(3,5,6,7,4,8,9));
-                answerArray = new ArrayList<>(Arrays.asList(32,12,53,50,23,45,21,57,23,10,6,5,7,9));
+                questionArray = new ArrayList<>(Arrays.asList(1,2,3,4,6,8,10,11,12,13,14,15,16,17,18,19,20));
                 break;
             case "medium":
-                questionArray = new ArrayList<>(Arrays.asList(8,12,11,14,15,16,18,9));
-                answerArray = new ArrayList<>(Arrays.asList(102,312,103,89,45,72,57,23,10,260,250,9));
+                questionArray = new ArrayList<>(Arrays.asList(21,22,24,25,27,28,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60));
                 break;
             case "hard":
-                questionArray = new ArrayList<>(Arrays.asList(51,79,16,27,35,28,44,55,72));
-                answerArrayHigh = new ArrayList<>(Arrays.asList(3123,2124,1415,5189,3961,2453,3332,4010,2777,2876,3468,5235));
-                answerArrayLow =  new ArrayList<>(Arrays.asList(13,24,145,89,318,243,332,110,59,58,96,31));
+                questionArray = new ArrayList<>(Arrays.asList(13,17,19,23,27,33,29,46,93,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,
+                       71,72,73,74,75,76, 77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,101,93,94,95,96,97,98,99,100,101,102,103));
                 break;
         }
     }
 
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -226,7 +251,7 @@ public class GameActivity extends AppCompatActivity {
             }, 0);
         }
         else //game over,do nothing
-            {
+        {
             return;
         }
 
@@ -289,6 +314,7 @@ public class GameActivity extends AppCompatActivity {
         hideView(answerLayoutP1);
         hideView(answerLayoutP2);
     }
+
     private void showViewsForAnim() {
         showView(labelsP1);
         showView(labelsP2);
@@ -348,6 +374,7 @@ public class GameActivity extends AppCompatActivity {
         }
         else if(tieScore&&count_tie_question==5){
             tieScore=false;
+
             count_tie_question=0;
             //Show playAgain button
             hideView(tieTVP1);
@@ -363,17 +390,18 @@ public class GameActivity extends AppCompatActivity {
             answerIndex = random.nextInt(4); // index of correct option
             int firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
             int secondQnInt = questionArray.get(random.nextInt(questionArray.size()));
-            //to make it harder,when first==second --> random again one of them.
             if(isHard&&(firstQnInt == secondQnInt))
             {
                 Log.d("isHard","first==second");
                 do
-                   firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
-                  while(firstQnInt == secondQnInt);
+                    firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
+                while(firstQnInt == secondQnInt);
             }
-                String operation = "";
+            String operation = "";
             int answer = 0;
-            switch(questionType) {
+            double hardAnswer = 0;
+
+            switch(answerIndex) {
                 case 0:
                     //addition
                     answer = firstQnInt + secondQnInt;
@@ -381,6 +409,9 @@ public class GameActivity extends AppCompatActivity {
                     break;
                 case 1:
                     //subtraction
+                    if (firstQnInt < secondQnInt) {
+                        firstQnInt = getItself(secondQnInt, secondQnInt = firstQnInt);
+                    }
                     answer = firstQnInt - secondQnInt;
                     operation = "-";
                     break;
@@ -390,51 +421,110 @@ public class GameActivity extends AppCompatActivity {
                     operation = "x";
                     break;
                 case 3:
-                    //division
-                    if(firstQnInt < secondQnInt){
+                    if (firstQnInt < secondQnInt) {
                         //if first < second then swap them
-                        firstQnInt = getItself(secondQnInt, secondQnInt = firstQnInt);
+                        firstQnInt = getItself((int) secondQnInt, secondQnInt = (int) firstQnInt);
                     }
-
-                    answer = firstQnInt / secondQnInt;
+                    hardAnswer = (double)firstQnInt / secondQnInt;
                     operation = "/";
                     break;
             }
-            for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
-                Button childButtonP1 = (Button) answerLayoutP1.getChildAt(i);
-                Button childButtonP2 = (Button) answerLayoutP2.getChildAt(i);
-                Integer randomValue;
-                if(gameLvl.equals("hard")){
-                    if(answer>350)
-                        randomValue = answerArrayHigh.get(random.nextInt(answerArrayHigh.size()));
-                    else
-                        randomValue = answerArrayLow.get(random.nextInt(answerArrayLow.size()));
-                }
-                else
-                    randomValue = answerArray.get(random.nextInt(answerArray.size()));
 
-                if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
-                    childButtonP1.setText(String.valueOf(answer));
-                } else {
-                    if (randomValue == answer) {
-                        randomValue += random.nextInt(5);
+
+            Random r = new Random();
+            int rnd = 1;
+            if(isHard&&(answerIndex==3)){
+                numArrays.doubleRandomNumbers = r.doubles(8, answer,answer+2).toArray();
+            }
+            else{
+                    numArrays.RandomNumbers = r.ints(8, answer+1,answer+8).toArray();
+            }
+            if(isHard){
+                for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
+                    Button childButtonP1 = (Button) answerLayoutP1.getChildAt(i);
+                    Button childButtonP2 = (Button) answerLayoutP2.getChildAt(i);
+                    Double randomValueHard = 0.0 ;
+
+                    if(answerIndex == 2) // is '*'
+                        randomValueHard =(double)numArrays.RandomNumbers[rnd++];
+                    else
+                    randomValueHard = numArrays.doubleRandomNumbers[rnd++];
+
+                    if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
+                        if(answerIndex == 2) { // is '*'
+                           // hardAnswer =(double) answer;
+                            childButtonP1.setText(String.valueOf(answer));
+                        }
+                        else // is '/'
+                        childButtonP1.setText(new DecimalFormat("##.###").format(hardAnswer));
+                    } else {
+                        if (randomValueHard == hardAnswer) {
+                            randomValueHard += random.nextInt(5);
+                        }
+                        if(answerIndex == 2) // is '*'
+                        {
+                            int temp=randomValueHard.intValue();
+                            childButtonP1.setText(String.valueOf(temp));
+                        }
+                        else
+                            childButtonP1.setText((new DecimalFormat("##.###").format(randomValueHard)));
+
                     }
-                    childButtonP1.setText(String.valueOf(randomValue));
-                }
-                // second player-set a 4 numbers that can be the answer.
-                if (childButtonP2.getTag().toString().equals(Integer.toString(answerIndex))) {
-                    childButtonP2.setText(String.valueOf(answer));
-                } else {
-                    if (randomValue == answer) {
-                        randomValue += random.nextInt(5);
+                    // second player-set a 4 numbers that can be the answer.
+                    if (childButtonP2.getTag().toString().equals(Integer.toString(answerIndex))) {
+                        if(answerIndex == 2) { // is '*'
+                            //hardAnswer = (double) answer;
+                            childButtonP2.setText(String.valueOf(answer));
+                        }
+                        else
+                            childButtonP2.setText(new DecimalFormat("##.###").format(hardAnswer));
+                    } else {
+                        if (randomValueHard == hardAnswer) {
+                            randomValueHard += random.nextInt(5);
+                        }
+                        if(answerIndex == 2) // is '*'
+                        {
+                            int temp=randomValueHard.intValue();
+                            childButtonP2.setText(String.valueOf(temp));
+                        }
+                        else
+                        childButtonP2.setText((new DecimalFormat("##.###").format(randomValueHard)));
+
                     }
-                    childButtonP2.setText(String.valueOf(randomValue));
                 }
             }
+            else{
+                for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
+                    Button childButtonP1 = (Button) answerLayoutP1.getChildAt(i);
+                    Button childButtonP2 = (Button) answerLayoutP2.getChildAt(i);
+                    Integer randomValue = 0;
+                    randomValue = numArrays.RandomNumbers[++rnd];
+                    if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
+                        childButtonP1.setText(String.valueOf(answer));
+                    } else {
+                        if (randomValue == answer) {
+                            randomValue += random.nextInt(5);
+                        }
+                        childButtonP1.setText(String.valueOf(randomValue));
+                    }
+                    // second player-set a 4 numbers that can be the answer.
+                    if (childButtonP2.getTag().toString().equals(Integer.toString(answerIndex))) {
+                        childButtonP2.setText(String.valueOf(answer));
+                    } else {
+                        if (randomValue == answer) {
+                            randomValue += random.nextInt(5);
+                        }
+                        childButtonP2.setText(String.valueOf(randomValue));
+                    }
+                }
+            }
+
+
 
             //Set qn text
             questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
             questionTextP2.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
+
             if(tieScore){
                 tieTVP1.setText(String.format(Locale.ENGLISH, "Round%d",count_tie_question+1 ));
             }
@@ -450,34 +540,31 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-
     private void endGame() {
         countDown.cancel();
         countDown.onFinish();
     }
-
     // a trick to swap by reference
     public static int getItself(int itself, int dummy)
     {
         return itself;
     }
 
-
-
     private void startTimer() {
 
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easy":
-                millisInFuture = 5000;
+                millisInFuture = 50000;
                 break;
             case "medium":
-                millisInFuture = 10000;
+                millisInFuture = 50000;
                 break;
             case "hard":
-                millisInFuture = 15000;
+                millisInFuture = 50000;
                 break;
         }
+
 
         countDown = new CountDownTimer(millisInFuture, 1000) {
             @Override
@@ -494,7 +581,7 @@ public class GameActivity extends AppCompatActivity {
             public void onFinish() {
                 disableBtns();
                 if(scoreP1==scoreP2){
-                tieScore = true;
+                    tieScore = true;
                     playAgainTie();
                     enableBtns();
                     return;
@@ -533,8 +620,6 @@ public class GameActivity extends AppCompatActivity {
         startGame();
     }
 
-
-
     private void enableBtns() {
         for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
             answerLayoutP1.getChildAt(i).setEnabled(true);
@@ -556,16 +641,14 @@ public class GameActivity extends AppCompatActivity {
         Animation fadeout = new AlphaAnimation(1.f, 1.f);
         fadeout.setDuration(5000); // You can modify the duration here
         fadeout.setAnimationListener(new Animation.AnimationListener() {
-
             @Override
             public void onAnimationStart(Animation animation) {
                 gifImageView.setBackgroundResource(R.drawable.go321);//your gif file
             }
-
             @Override
             public void onAnimationRepeat(Animation animation) {
-            }
 
+            }
             @Override
             public void onAnimationEnd(Animation animation) {
 
