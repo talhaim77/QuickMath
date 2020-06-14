@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,28 +16,29 @@
     <LinearLayout
         android:id="@+id/answersButtonsP1"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:orientation="horizontal"
+        android:layout_height="120dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:rotation="-180"
-        android:visibility="visible"
         android:weightSum="4"
-        android:layout_margin="3dp">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/answer0"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/button_shape"
             android:onClick="checkAnswerP1"
             android:tag="0"
             android:text="Button"
-            android:textSize="24sp" />
+            android:textSize="24sp"/>
 
         <Button
             android:id="@+id/answer1"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_orange"
             android:onClick="checkAnswerP1"
@@ -49,7 +49,7 @@
         <Button
             android:id="@+id/answer2"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_green"
             android:onClick="checkAnswerP1"
@@ -60,7 +60,7 @@
         <Button
             android:id="@+id/answer3"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_darkblue"
             android:onClick="checkAnswerP1"
@@ -74,13 +74,13 @@
         android:layout_width="match_parent"
         android:layout_height="25dp"
         android:layout_below="@id/answersButtonsP1"
-        android:id="@+id/winner"/>
+        android:id="@+id/space1"/>
 
     <TextView
         android:id="@+id/questionTextP1"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_below="@id/winner"
+        android:layout_below="@id/space1"
         android:background="@drawable/bgbuttons"
         android:text="1 + 1"
         android:textAlignment="center"
@@ -180,7 +180,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
-        android:layout_height="710dp"
+        android:layout_height="800dp"
         android:id="@+id/win2"
         app:lottie_rawRes="@raw/winnersanimation"
         app:lottie_autoPlay="true"
@@ -189,7 +189,7 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"
-        android:layout_height="710dp"
+        android:layout_height="800dp"
         android:id="@+id/win"
         app:lottie_rawRes="@raw/winnersanimation"
         app:lottie_autoPlay="true"
@@ -199,7 +199,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="40dp"
         android:layout_marginTop="5dp"
         android:layout_below="@id/labelsP1"
         android:id="@+id/space3"/>
@@ -221,8 +221,7 @@
         android:rotation="-270"
         android:textAlignment="center"
         android:textColor="#080309"
-        android:textSize="35sp"
-        android:visibility="gone"/>
+        android:textSize="35sp" />
 
 
     <ImageButton
@@ -233,21 +232,22 @@
         android:layout_below="@id/space3"
         android:onClick="playAgain"
         android:background="@drawable/button_shape"
-        android:src="@drawable/ic_replay_24dp"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_replay_24dp"/>
 
     <!--Animation of 3,2,1 go-->
 
+
+
+
     <Space
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="40dp"
         android:layout_below="@id/tieQP1"
         android:id="@+id/space4"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
         android:layout_below="@id/space4"
         android:layout_marginLeft="48dp"
         android:layout_marginRight="30dp"
@@ -256,7 +256,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:textStyle="bold"
             android:text="Timer"/>
         <TextView
@@ -268,7 +267,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_marginLeft="90dp"
             android:textStyle="bold"
             android:text="Score"/>
     </LinearLayout>
@@ -326,14 +325,12 @@
         android:layout_below="@id/layout_p2"
         android:id="@+id/space5"/>
 
-
     <TextView
         android:id="@+id/questionTextP2"
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_below="@id/space5"
         android:layout_centerHorizontal="true"
-        android:gravity="center"
         android:background="@drawable/bgbuttons"
         android:text="1 + 1"
         android:textAlignment="center"
@@ -349,16 +346,18 @@
     <LinearLayout
         android:id="@+id/answersButtonsP2"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="120dp"
         android:orientation="horizontal"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:weightSum="4"
-        android:layout_margin="3dp"
-        android:layout_below="@id/space6">
+        android:layout_below="@id/space6"
+        android:visibility="visible">
 
         <Button
             android:id="@+id/answer0P2"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/button_shape"
             android:onClick="checkAnswerP2"
@@ -369,7 +368,7 @@
         <Button
             android:id="@+id/answer1P2"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_orange"
             android:onClick="checkAnswerP2"
@@ -380,7 +379,7 @@
         <Button
             android:id="@+id/answer2P2"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_green"
             android:onClick="checkAnswerP2"
@@ -391,7 +390,7 @@
         <Button
             android:id="@+id/answer3P2"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_darkblue"
             android:onClick="checkAnswerP2"
@@ -400,6 +399,5 @@
             android:textColor="#FFFFFF"
             android:textSize="24sp" />
     </LinearLayout>
-
 
 </RelativeLayout>

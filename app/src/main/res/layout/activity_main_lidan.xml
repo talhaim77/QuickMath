@@ -52,6 +52,7 @@
            android:lineSpacingExtra="6dp"
            android:text="EASY"
            android:textAlignment="center"
+           android:gravity="center"
            android:textAllCaps="false"
            android:textColor="@color/black"
            android:textSize="36sp" />
@@ -103,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo_iv"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
@@ -148,15 +150,15 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textAllCaps="false"
+            android:layout_marginBottom="10dp"
             android:layout_weight="1"
             android:background="@drawable/bgbuttons"
             android:lineSpacingExtra="6dp"
             android:text="1P"
             android:textAlignment="center"
-            android:textSize="26sp"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/black" />
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/hard_level"
@@ -164,6 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/logo_iv"
             android:layout_centerHorizontal="true"
+            android:gravity="center"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp"
@@ -211,7 +214,7 @@
         android:lineSpacingExtra="6dp"
         android:text="Best Players"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/cardview_dark_background"
         android:textSize="26sp" />
 
 
@@ -223,13 +226,14 @@
         android:layout_below="@id/top_table_activity"
         android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true">
+
         <Button
             android:id="@+id/musicBtn"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:background="@drawable/bgbuttons"/>
+            android:background="@drawable/bgbuttons"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/soundBtn"
@@ -237,7 +241,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:background="@drawable/bgbuttons"
-            android:visibility="invisible"/>
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

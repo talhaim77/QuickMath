@@ -23,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.github.jinatonic.confetti.CommonConfetti;
 
 import java.text.DecimalFormat;
@@ -38,6 +39,7 @@ import pl.droidsonroids.gif.GifTextView;
 ////
 
 public class GameActivity extends AppCompatActivity {
+    LottieAnimationView winnerP1,winnerP2;
     GlobalClass global;
     MediaPlayer mediaPlayer;
     TextView timeCountDownP1,timeCountDownP2;
@@ -74,7 +76,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         global = GlobalClass.getInstance();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_game2);
         String game_level = getIntent().getStringExtra("level");
         gameLvl = game_level;
         sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
@@ -97,6 +99,8 @@ public class GameActivity extends AppCompatActivity {
         labelsP2 = findViewById(R.id.labelsP2);
 
         gifImageView = findViewById(R.id.start_gif);
+        winnerP1 = findViewById(R.id.win);
+        winnerP2 = findViewById(R.id.win2);
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
         scoreTextP2 = findViewById(R.id.scoreP2);
@@ -112,18 +116,9 @@ public class GameActivity extends AppCompatActivity {
     private void initArraysLvl() {
         //init arrays of the easy level
           numArrays = new AnswerArrays();
-//        easyArrays.setAnswerArrayLow(new ArrayList<>(Arrays.asList(3,4,5,6,7,8,9,10)));
-//        easyArrays.setAnswerArrayMid(new ArrayList<>(Arrays.asList(11,13,15,16,18,20,23,27,21,25)));
 
         //init arrays of the medium level
           medArrays = new AnswerArrays();
-//        medArrays.setAnswerArrayLow(new ArrayList<>(Arrays.asList()));
-//        medArrays.setAnswerArrayMid(new ArrayList<>(Arrays.asList(11,13,15,16,18,20,23,27,21,25)));
-//        medArrays.setAnswerArrayHigh(new ArrayList<>(Arrays.asList(28,29,30,31,33,34,37,38)));
-//        Random r = new Random();
-//        medArrays.RandomNumbersLow = r.ints(10, 1, 10).toArray();
-//        medArrays.RandomNumbersMid = r.ints(10, 1, 10).toArray();
-//        medArrays.RandomNumbersHigh = r.ints(10, 1, 10).toArray();
 
     }
 
@@ -374,7 +369,6 @@ public class GameActivity extends AppCompatActivity {
         }
         else if(tieScore&&count_tie_question==5){
             tieScore=false;
-
             count_tie_question=0;
             //Show playAgain button
             hideView(tieTVP1);
@@ -382,6 +376,7 @@ public class GameActivity extends AppCompatActivity {
             showView(playAgainButton);
             //Set gamestate to inactive
             isActive = false;
+            winnerAnim();
         }
         else {
             Random random = new Random();
@@ -590,13 +585,13 @@ public class GameActivity extends AppCompatActivity {
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easy":
-                millisInFuture = 50000;
+                millisInFuture = 10000;
                 break;
             case "medium":
-                millisInFuture = 50000;
+                millisInFuture = 10000;
                 break;
             case "hard":
-                millisInFuture = 500000;
+                millisInFuture = 10000;
                 break;
         }
 
@@ -607,30 +602,64 @@ public class GameActivity extends AppCompatActivity {
                 //amend timeCountDown on every tick
                 timeCountDownP1.setText(String.valueOf(millisUntilFinished / 1000));
                 timeCountDownP2.setText(String.valueOf(millisUntilFinished / 1000));
-                if(millisUntilFinished == 10000){
+                if (millisUntilFinished == 10000) {
 
                 }
             }
 
+
             @Override
             public void onFinish() {
-                disableBtns();
-                if(scoreP1==scoreP2){
+                if (scoreP1 == scoreP2){
+                    tieScore = true;
                     tieScore = true;
                     playAgainTie();
-                    enableBtns();
                     return;
                 }
-                else{
+                else {
+                winnerAnim();
+                }
                     //Show playAgain button
-                    newHighScoreCheck();
+                    //newHighScoreCheck();
                     showView(playAgainButton);
                     //Set gamestate to inactive
                     isActive = false;
                 }
+        }.start();
+    }
+
+    private void winnerAnim() {
+        hideView(answerLayoutP1);
+        hideView(answerLayoutP2);
+        hideView(questionTextP1);
+        hideView(questionTextP2);
+        hideView(timerLayoutP1);
+        hideView(timerLayoutP2);
+        hideView(labelsP1);
+        hideView(labelsP2);
+        playAgainButton.setVisibility(View.INVISIBLE);
+        if (scoreP1 > scoreP2) {
+            winnerP1.setVisibility(View.VISIBLE);
+            showView(winnerP1);
+            winnerP1.playAnimation();
+        } else {  //(scoreP1>scoreP2)
+            winnerP2.setVisibility(View.VISIBLE);
+            showView(winnerP2);
+            winnerP2.playAnimation();
+        }
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (scoreP1 > scoreP2)
+                winnerP1.setVisibility(View.INVISIBLE);
+                else
+                    winnerP2.setVisibility(View.INVISIBLE);
+                playAgainButton.setVisibility(View.VISIBLE);
 
             }
-        }.start();
+        }, 2000);
+
     }
 
     public void disableBtns() {
