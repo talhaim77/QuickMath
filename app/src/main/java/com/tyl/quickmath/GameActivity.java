@@ -1,8 +1,8 @@
 package com.tyl.quickmath;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +24,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.github.jinatonic.confetti.CommonConfetti;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -56,12 +55,8 @@ public class GameActivity extends AppCompatActivity {
     String gameLvl;
     boolean isHard,tieScore;
     ArrayList<Integer> questionArray;
-    //ArrayList<Integer> davionQuestionArray;
-    //ArrayList<Integer> davionSecQuestionArray;
+    ImageButton backDialog;
 
-
-
-    //ArrayList<Integer> davionAnswerArray ;
     AnswerArrays numArrays,medArrays,hardArrays;
     //ArrayList<Integer> answerArrayLow;
     private int scoreP2=0;
@@ -91,20 +86,21 @@ public class GameActivity extends AppCompatActivity {
 
         questionCounterP1 = findViewById(R.id.questionCounterP1);
         questionCounterP2=findViewById(R.id.questionCounterP2);
-        answerLayoutP1 = findViewById(R.id.answersButtonsP1);
+        answerLayoutP1 = findViewById(R.id.answersButtons);
         answerLayoutP2 = findViewById(R.id.answersButtonsP2);
 
         tieTVP1 = findViewById(R.id.tieQP1);
         labelsP1 = findViewById(R.id.labelsP1);
         labelsP2 = findViewById(R.id.labelsP2);
 
+        backDialog = findViewById(R.id.return_to_menu);
         gifImageView = findViewById(R.id.start_gif);
         winnerP1 = findViewById(R.id.win);
         winnerP2 = findViewById(R.id.win2);
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
         scoreTextP2 = findViewById(R.id.scoreP2);
-        isHard = gameLvl.equals("hard");
+        isHard = gameLvl.equals("hardP2");
         setArrayValues(game_level);
         scoresArray = new ArrayList<>();
         initScoresTable();
@@ -131,13 +127,13 @@ public class GameActivity extends AppCompatActivity {
 
     private void setArrayValues(String level) {
         switch (level) {
-            case "easy":
+            case "easyP2":
                 questionArray = new ArrayList<>(Arrays.asList(1,2,3,4,6,8,10,11,12,13,14,15,16,17,18,19,20));
                 break;
-            case "medium":
+            case "mediumP2":
                 questionArray = new ArrayList<>(Arrays.asList(21,22,24,25,27,28,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60));
                 break;
-            case "hard":
+            case "hardP2":
                 questionArray = new ArrayList<>(Arrays.asList(13,17,19,23,27,33,29,46,93,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,
                        71,72,73,74,75,76, 77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,101,93,94,95,96,97,98,99,100,101,102,103));
                 break;
@@ -218,17 +214,20 @@ public class GameActivity extends AppCompatActivity {
 
 
                     final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
-
-                    final Runnable r = new Runnable() {
-                        @Override
-                        public void run() {
-                            CommonConfetti.rainingConfetti(container, new int[] { Color.BLUE ,Color.YELLOW, Color.RED, Color.GREEN})
-                                    .infinite();
-                        }
-                    };
-                    hndlr.postDelayed(r,600 );
+//
+//                    final Runnable r = new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            CommonConfetti.rainingConfetti(container, new int[] { Color.BLUE ,Color.YELLOW, Color.RED, Color.GREEN})
+//                                    .infinite();
+//                        }
+//                    };
+//                    hndlr.postDelayed(r,600 );
 
                     ImageButton returnBtn = dialogview.findViewById(R.id.return_to_game);
+                    final Intent top_intent = new Intent(GameActivity.this, TopTableActivity.class);
+                    top_intent.putExtra("level", gameLvl);
+
                     returnBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -239,6 +238,7 @@ public class GameActivity extends AppCompatActivity {
                             maxScore = 0;
                             new_high_score = false;
                             dialog.dismiss();
+                            startActivity(top_intent);
                         }
                     });
 
@@ -395,7 +395,7 @@ public class GameActivity extends AppCompatActivity {
             int answer = 0;
             double hardAnswer = 0;
             int questionType = 0;
-            if(gameLvl.equals("easy")){
+            if(gameLvl.equals("easyP2")){
                 questionType = random.nextInt(2); // get question type
                 switch(questionType) {
                     case 0:
@@ -414,7 +414,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
 
-            else if(gameLvl.equals("medium")){
+            else if(gameLvl.equals("mediumP2")){
                 questionType = random.nextInt(3); // get question type
                 switch(questionType) {
                     case 0:
@@ -478,7 +478,7 @@ public class GameActivity extends AppCompatActivity {
                     randomValueHard = numArrays.doubleRandomNumbers[rnd++];
 
                     if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
-                        if(questionType == 1) { // is '*'
+                        if(questionType == 0) { // is '*'
                            // hardAnswer =(double) answer;
                             childButtonP1.setText(String.valueOf(answer));
                         }
@@ -584,17 +584,16 @@ public class GameActivity extends AppCompatActivity {
 
         int millisInFuture = 0;
         switch (gameLvl) {
-            case "easy":
+            case "easyP2":
+                millisInFuture = 20000;
+                break;
+            case "mediumP2":
                 millisInFuture = 10000;
                 break;
-            case "medium":
-                millisInFuture = 10000;
-                break;
-            case "hard":
+            case "hardP2":
                 millisInFuture = 10000;
                 break;
         }
-
 
         countDown = new CountDownTimer(millisInFuture, 1000) {
             @Override
@@ -602,9 +601,9 @@ public class GameActivity extends AppCompatActivity {
                 //amend timeCountDown on every tick
                 timeCountDownP1.setText(String.valueOf(millisUntilFinished / 1000));
                 timeCountDownP2.setText(String.valueOf(millisUntilFinished / 1000));
-                if (millisUntilFinished == 10000) {
-
-                }
+//                if (millisUntilFinished == 10000) {
+//
+//                }
             }
 
 
@@ -619,8 +618,15 @@ public class GameActivity extends AppCompatActivity {
                 else {
                 winnerAnim();
                 }
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        newHighScoreCheck();
+                    }
+                }, 2050);
+
                     //Show playAgain button
-                    //newHighScoreCheck();
                     showView(playAgainButton);
                     //Set gamestate to inactive
                     isActive = false;

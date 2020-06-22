@@ -106,32 +106,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent top_intent = new Intent(MainActivity.this, TopTableActivity.class);
         switch (v.getId()) {
             case R.id.onePlayerEasy:
-                gameMode = "easy";
+                gameMode = "easyP1";
                 intentP1.putExtra("level", gameMode);
                 startActivity(intentP1);
                 break;
             case R.id.twoPlayerEasy:
-                gameMode = "easy";
+                gameMode = "easyP2";
                 intentP2.putExtra("level", gameMode);
                 startActivity(intentP2);
                 break;
             case R.id.onePlayerMid:
-                gameMode = "medium";
+                gameMode = "mediumP1";
                 intentP1.putExtra("level", gameMode);
                 startActivity(intentP1);
                 break;
             case R.id.twoPlayerMid:
-                gameMode = "medium";
+                gameMode = "mediumP2";
                 intentP2.putExtra("level", gameMode);
                 startActivity(intentP2);
                 break;
             case R.id.onePlayerHard:
-                gameMode = "hard";
+                gameMode = "hardP1";
                 intentP1.putExtra("level", gameMode);
                 startActivity(intentP1);
                 break;
             case R.id.twoPlayerHard:
-                gameMode = "hard";
+                gameMode = "hardP2";
                 intentP2.putExtra("level", gameMode);
                 startActivity(intentP2);
                 break;

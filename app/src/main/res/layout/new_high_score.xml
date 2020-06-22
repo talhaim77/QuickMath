@@ -2,29 +2,35 @@
 
 <RelativeLayout
 
-    android:background="@drawable/bgdialog"
     android:orientation="vertical"
-    android:layout_height="550dp"
-    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
     android:id="@+id/highscore_layout"
     android:layout_gravity="center"
+    android:background="@android:color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:background="@drawable/bgdialog">
 
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
+        <TextView
             android:id="@+id/gameoverHs"
-            android:src="@drawable/gameover"/>
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Game Over"
+            android:textColor="#D6000000"
+            android:textSize="60sp"
+            android:textStyle="bold" />
         <TextView
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textSize="30sp"
+            android:textColor="@color/black"
             android:text="@string/newhscore"
             android:gravity="center"/>
 
@@ -47,6 +53,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="70"
                 android:layout_height="match_parent"
+                android:textSize="26sp"
+                android:gravity="center"
                 android:hint="@string/enter_your_name"
                 android:id="@+id/username"/>
         </LinearLayout>
@@ -57,22 +65,21 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-
             <ImageButton
                 android:layout_width="0dp"
-                android:layout_weight="45"
                 android:layout_height="75dp"
+                android:layout_weight="1"
                 android:id="@+id/return_to_menu"
-                android:src="@drawable/back_btn"
+                android:src="@drawable/ic_arrow_back_black_24dp"
                 android:scaleType="centerInside"
                 android:background="#00000000"/>
 
             <ImageButton
                 android:layout_width="0dp"
-                android:layout_weight="45"
                 android:layout_height="75dp"
+                android:layout_weight="1"
                 android:id="@+id/return_to_game"
-                android:src="@drawable/play_trns"
+                android:src="@drawable/ic_play_circle_outline_bl_24dp"
                 android:scaleType="centerInside"
                 android:background="#00000000"/>
 

@@ -14,7 +14,7 @@
         android:src="@drawable/go321" />
 
     <LinearLayout
-        android:id="@+id/answersButtonsP1"
+        android:id="@+id/answersButtons"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginTop="15dp"
@@ -73,7 +73,7 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="25dp"
-        android:layout_below="@id/answersButtonsP1"
+        android:layout_below="@id/answersButtons"
         android:id="@+id/space1"/>
 
     <TextView

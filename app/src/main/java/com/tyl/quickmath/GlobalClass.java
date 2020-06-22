@@ -32,7 +32,7 @@ public class GlobalClass extends Application {
     public void initializeMediaPlayer(Context context) {
         Log.d("initializeMediaPlayer","in");
         this.musicPlayer = new MediaPlayer();
-      musicPlayer = MediaPlayer.create(context,R.raw.bghappymusic);
+      musicPlayer = MediaPlayer.create(context,R.raw.music2);
       musicPlayer.setLooping(true);
       playSound(context);
     }

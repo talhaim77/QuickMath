@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:keepScreenOn="true"
+    android:weightSum="10"
     android:background="@drawable/bg_toptable"
     tools:context=".TopTableActivity"
     android:orientation="vertical">
@@ -21,11 +22,44 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
         android:layout_below="@+id/top_users"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginHorizontal="40dp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        android:weightSum="2"
+        android:gravity="right">
+        <Button
+            android:id="@+id/top_table_newgame"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"
+            android:text="NEW GAME"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_shape"/>
+        <Button
+        android:id="@+id/top_table_backtomenu"
+        android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+        android:textSize="20sp"
+        android:text="HOME"
+        android:scaleType="centerInside"
+        android:background="@drawable/button_shape"/>
 
-</RelativeLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
