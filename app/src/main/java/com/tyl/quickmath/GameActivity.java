@@ -193,7 +193,7 @@ public class GameActivity extends AppCompatActivity {
     private void newHighScoreCheck() {
         //int maxScore = Integer.max(scoreP1,scoreP2);
         maxScore = (scoreP1 > scoreP2 ? scoreP1 : scoreP2) ;
-        minOfTop10 = sharedPreferences.getInt("highscore10",0);
+        minOfTop10 = sharedPreferences.getInt("highscore5",0);
 
         if ( maxScore > minOfTop10)
             new_high_score = true;
@@ -568,6 +568,12 @@ public class GameActivity extends AppCompatActivity {
                     numArrays.RandomNumbers[i] = numArrays.RandomNumbers[i]+i ;
             }
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        startGame();
     }
 
     private void endGame() {

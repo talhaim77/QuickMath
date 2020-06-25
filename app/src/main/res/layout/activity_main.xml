@@ -30,7 +30,7 @@
         android:layout_marginLeft="10dp"
         android:textAllCaps="false"
         android:layout_weight="1"
-        android:background="@drawable/bgbuttons"
+        android:backgroundTint="@color/white"
         android:lineSpacingExtra="6dp"
         android:text="1P"
         android:textAlignment="center"
@@ -62,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_weight="1"
+        android:backgroundTint="@color/white"
         android:textAllCaps="false"
         android:layout_below="@+id/logo_iv"
         android:background="@drawable/bgbuttons"
@@ -89,6 +90,8 @@
             android:layout_marginLeft="10dp"
             android:textAllCaps="false"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
+
             android:background="@drawable/bgbuttons"
             android:lineSpacingExtra="6dp"
             android:text="1P"
@@ -121,6 +124,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
             android:textAllCaps="false"
             android:layout_below="@+id/logo_iv"
             android:background="@drawable/bgbuttons"
@@ -150,6 +154,7 @@
             android:layout_marginLeft="10dp"
             android:textAllCaps="false"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
             android:background="@drawable/bgbuttons"
             android:lineSpacingExtra="6dp"
             android:text="1P"
@@ -182,6 +187,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
+            android:backgroundTint="@color/white"
             android:textAllCaps="false"
             android:layout_below="@+id/logo_iv"
             android:background="@drawable/bgbuttons"
@@ -199,7 +205,9 @@
 
 
 
-    <Button
+
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/top_table_activity"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
@@ -212,8 +220,7 @@
         android:text="Best Players"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="26sp" />
-
+        android:textSize="26sp"/>
 
     <LinearLayout
         android:id="@+id/sound_layout"

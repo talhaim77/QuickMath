@@ -17,7 +17,7 @@
         android:padding="8dp"
         android:textColor="#009688"
         android:textSize="30dp"
-        android:text="Top 10 users" />
+        android:text="Top 5 users" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

@@ -10,15 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
-        <activity android:name=".GameActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".TopTableActivity"/>
-
+            android:name=".fragments.FragmentViewPagerActivity"
+            android:label="@string/title_fragment_slider"></activity>
         <activity
-            android:name=".GameActivitySolo"/>
-
+            android:name=".GameActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TopTableActivity" />
+        <activity
+            android:name=".GameActivitySolo"
+            android:launchMode="singleTask" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

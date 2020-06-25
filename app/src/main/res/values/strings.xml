@@ -2,4 +2,6 @@
     <string name="app_name">QuickMath</string>
     <string name="newhscore">New high score</string>
     <string name="enter_your_name">Enter your name</string>
+    <string name="title_fragment_slider">Fragment Slider</string>
+
 </resources>

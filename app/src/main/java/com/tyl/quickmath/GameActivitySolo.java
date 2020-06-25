@@ -20,6 +20,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,7 +44,7 @@ public class GameActivitySolo extends AppCompatActivity {
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
-    int answerIndex, minOfTop10;
+    int answerIndex, minOfTop5;
     int count_the_question, count_tie_question;
     String gameLvl;
     boolean isHard, tieScore;
@@ -57,7 +59,8 @@ public class GameActivitySolo extends AppCompatActivity {
     private List<Person> scoresArray;
     private int maxScore;
     final Handler hndlr = new Handler();
-
+    LottieAnimationView winAnim;
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         global = GlobalClass.getInstance();
         super.onCreate(savedInstanceState);
@@ -78,6 +81,7 @@ public class GameActivitySolo extends AppCompatActivity {
 
         backDialog = findViewById(R.id.return_to_menu);
         gifImageView = findViewById(R.id.start_gif);
+        winAnim = findViewById(R.id.winsolo);
 
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
@@ -89,26 +93,51 @@ public class GameActivitySolo extends AppCompatActivity {
         startGame();
     }
 
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+        global.pauseSong();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+        } else {
+            global.playSound(this);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        startGame();
+    }
     private void startGame() {
-//        playGif();
+        playGif();
         //Hide useless buttons
         hideView(playAgainButton);
         //3,2,1 -->go
-//        hideViewsForAnim();
-//        showView(gifImageView);
+        hideViewsForAnim();
+        showView(gifImageView);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 isActive = true; //set game state to active
-//                hideView(gifImageView);
-//                showViewsForAnim();
+                hideView(gifImageView);
+                showViewsForAnim();
                 startTimer();
                 getNextQuestionAnswer();
             }
-        }, 1000);
+        }, 5000);
 
     }
+
 
     private void endGame() {
         countDown.cancel();
@@ -125,33 +154,29 @@ public class GameActivitySolo extends AppCompatActivity {
             answerLayoutP1.getChildAt(i).setEnabled(true);
         }
     }
-//    private void winnerAnim() {
-//        hideView(answerLayoutP1);
-//        hideView(questionTextP1);
-//        hideView(timerLayoutP1);
-//        hideView(labelsP1);
-//        playAgainButton.setVisibility(View.INVISIBLE);
-//        if (scoreP1 > currentScore) {
-//            winnerP1.setVisibility(View.VISIBLE);
-//            showView(winnerP1);
-//            winnerP1.playAnimation();
-//
-//            final Handler handler = new Handler();
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    if (scoreP1 > scoreP2)
-//                        winnerP1.setVisibility(View.INVISIBLE);
-//                    else
-//                        winnerP2.setVisibility(View.INVISIBLE);
-//                    playAgainButton.setVisibility(View.VISIBLE);
-//
-//                }
-//            }, 2000);
-//
-//        }
-//
-//    }
+    private void winnerAnim() {
+        hideView(answerLayoutP1);
+        hideView(questionTextP1);
+        hideView(timerLayoutP1);
+        hideView(labelsP1);
+        playAgainButton.setVisibility(View.INVISIBLE);
+        if (new_high_score) {
+            winAnim.setVisibility(View.VISIBLE);
+            showView(winAnim);
+            winAnim.playAnimation();
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                        winAnim.setVisibility(View.INVISIBLE);
+                        playAgainButton.setVisibility(View.VISIBLE);
+                }
+            }, 3000);
+
+        }
+
+    }
 public void checkAnswerP1(View view) {
     disableBtns();
     if (view.getTag().toString().equals(Integer.toString(answerIndex))) {
@@ -171,12 +196,25 @@ public void checkAnswerP1(View view) {
 
 }
 
+
+    public void playAgain(View view) {
+        //to be executed by playAgainButton
+        showView(timeCountDownP1);
+        count_the_question = 0;
+         //reset the player score
+        scoreP1 = 0;
+        scoreTextP1.setText(Integer.toString(scoreP1));
+        enableBtns();
+        startGame();
+    }
+
+
     private void startTimer () {
 
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easyP1":
-                millisInFuture = 20000;
+                millisInFuture = 30000;
                 break;
             case "mediumP1":
                 millisInFuture = 10000;
@@ -201,7 +239,7 @@ public void checkAnswerP1(View view) {
                     public void run() {
                         newHighScoreCheck();
                     }
-                }, 2050);
+                }, 0);
 
                 //Show playAgain button
                 showView(playAgainButton);
@@ -213,12 +251,14 @@ public void checkAnswerP1(View view) {
     }
     private void newHighScoreCheck () {
 
-        minOfTop10 = sharedPreferences.getInt("highscore10", 0);
+        minOfTop5 = sharedPreferences.getInt("highscore5", 0);
 
-        if (scoreP1 > minOfTop10)
+        if (scoreP1 > minOfTop5)
             new_high_score = true;
 
         if (new_high_score) {
+
+            winnerAnim();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -253,9 +293,13 @@ public void checkAnswerP1(View view) {
                     });
 
                 }
-            }, 0);
+            }, 2800);
         } else //game over,do nothing
         {
+            hideView(answerLayoutP1);
+            hideView(questionTextP1);
+            hideView(timerLayoutP1);
+            hideView(labelsP1);
             return;
         }
 
@@ -363,7 +407,7 @@ public void checkAnswerP1(View view) {
     }
 
     private void initScoresTable () {
-        minOfTop10 = sharedPreferences.getInt("highscore10", 0);
+        minOfTop5 = sharedPreferences.getInt("highscore10", 0);
         scoresArray.add(0, new Person(sharedPreferences.getString("score1_name", "Player"), sharedPreferences.getInt("highscore1", 0)));
         scoresArray.add(new Person(sharedPreferences.getString("score2_name", "Player"), sharedPreferences.getInt("highscore2", 0)));
         scoresArray.add(new Person(sharedPreferences.getString("score3_name", "Player"), sharedPreferences.getInt("highscore3", 0)));
@@ -536,5 +580,6 @@ public void checkAnswerP1(View view) {
             }
         }
     }
+
 
 }

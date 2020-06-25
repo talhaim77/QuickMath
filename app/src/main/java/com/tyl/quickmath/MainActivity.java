@@ -15,16 +15,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.tyl.quickmath.databinding.ActivityMainBinding;
+import com.tyl.quickmath.fragments.FragmentViewPagerActivity;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private String gameMode;
     GlobalClass global;
+    private ActivityMainBinding binding;
     SharedPreferences sharedPreferences;
     Button sound,music;
     Button easyLvlP1,easyLvlP2,
             medLvlP1,medLvlP2,
             hardLvlP1,hardLvlP2;
-    Button topTable;
+//    Button topTable;
     ImageView logo_iv;
     LinearLayout sound_lt;
     Animation from_top,from_bottom,fade,btnAnim;
@@ -32,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         logo_iv = findViewById(R.id.logo_iv);
         sound_lt = findViewById(R.id.sound_layout);
         easyLvlP1 = findViewById(R.id.onePlayerEasy);
@@ -41,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         medLvlP2 = findViewById(R.id.twoPlayerMid);
         hardLvlP1 = findViewById(R.id.onePlayerHard);
         hardLvlP2 = findViewById(R.id.twoPlayerHard);
-        topTable = findViewById(R.id.top_table_activity);
+//        topTable = findViewById(R.id.top_table_activity);
 
          easyTV = findViewById(R.id.easy_level);
          medTV = findViewById(R.id.med_level);
@@ -65,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on),null,null,null);
         }
+        binding.topTableActivity.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, FragmentViewPagerActivity.class));
+        });
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         medLvlP2.setOnClickListener(this);
         hardLvlP1.setOnClickListener(this);
         hardLvlP2.setOnClickListener(this);
-        topTable.setOnClickListener(this);
+//        topTable.setOnClickListener(this);
     }
 
 
