@@ -135,18 +135,21 @@
         android:layout_height="300dp"
         android:layout_below="@id/questionTextP1"
         android:id="@+id/space2"/>
-    <ImageButton
-        android:id="@+id/imgBtnPlayAgain"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="100dp"
-        android:layout_below="@id/questionTextP1"
-        android:layout_centerHorizontal="true"
-        android:onClick="playAgain"
-        android:background="@drawable/button_shape"
-        android:src="@drawable/ic_replay_24dp"
-        android:visibility="visible"/>
 
+    <Button
+        android:id="@+id/imgBtnPlayAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/questionTextP1"
+        android:onClick="playAgain"
+        android:text="Play Again!"
+        android:textStyle="italic"
+        android:backgroundTint="@color/blue"
+        android:textSize="26sp"
+        android:src="@drawable/play_btn"
+        android:visibility="visible"/>
     <LinearLayout
         android:id="@+id/answersButtons"
         android:layout_width="match_parent"

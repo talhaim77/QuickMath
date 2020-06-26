@@ -12,11 +12,6 @@
 
     </style>
 
-    <style name="AdInstallButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="materialThemeOverlay">@style/InstallButtonThemeOverlay</item>
-        <item name="backgroundTint">@color/btn_color</item>
-    </style>
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

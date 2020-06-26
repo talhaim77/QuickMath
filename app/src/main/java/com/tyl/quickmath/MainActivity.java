@@ -59,20 +59,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferences = this.getSharedPreferences("sound",this.MODE_PRIVATE);
         global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
 
-        sound = findViewById(R.id.soundBtn);
+//        sound = findViewById(R.id.soundBtn);
         music =findViewById(R.id.musicBtn);
-        if(sharedPreferences.getBoolean("mute_tone",false)){
-            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
-        } else {
-            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
-        }
+//        if(sharedPreferences.getBoolean("mute_tone",false)){
+//            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
+//        } else {
+//            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
+//        }
         if(sharedPreferences.getBoolean("mute_music",false)){
             music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_off),null,null,null);
         }else{
             music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on),null,null,null);
         }
         binding.topTableActivity.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, FragmentViewPagerActivity.class));
+            Intent intent = new Intent(MainActivity.this, FragmentViewPagerActivity.class);
+            intent.putExtra("frgToLoad",0);
+            intent.putExtra("fromMain",true);
+            startActivity(intent);
         });
         music.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -29,45 +29,57 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/button_shape"
+            android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="0"
             android:text="Button"
-            android:textSize="24sp"/>
+            android:textSize="22sp"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/answer1"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/btn_shape_orange"
+            android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="1"
             android:text="Button"
-            android:textSize="24sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer2"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/btn_shape_green"
+            android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="2"
             android:text="Button"
-            android:textSize="24sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer3"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginLeft="4dp"
             android:background="@drawable/btn_shape_darkblue"
+            android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="3"
             android:text="Button"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <Space
@@ -124,11 +136,11 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@android:color/holo_purple"
+            android:background="@color/white"
             android:text="1/20"
             android:rotation="-180"
             android:gravity="center"
-            android:textColor="#C4FFFFFF"
+            android:textColor="#9C27B0"
             android:textSize="36sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
@@ -220,19 +232,22 @@
         android:textStyle="bold"
         android:rotation="-270"
         android:textAlignment="center"
-        android:textColor="#080309"
-        android:textSize="35sp" />
+        android:textColor="@color/black"
+        android:textSize="34sp" />
 
-
-    <ImageButton
+    <Button
         android:id="@+id/imgBtnPlayAgain"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/space3"
         android:onClick="playAgain"
-        android:background="@drawable/button_shape"
-        android:src="@drawable/ic_replay_24dp"/>
+        android:text="Play Again!"
+        android:textStyle="italic"
+        android:backgroundTint="@color/blue"
+        android:textSize="36sp"
+        android:src="@drawable/play_btn"
+        android:background="#00000000" />
 
     <!--Animation of 3,2,1 go-->
 
@@ -298,10 +313,10 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@android:color/holo_purple"
+            android:background="@color/white"
             android:text="1/20"
             android:gravity="center"
-            android:textColor="#C4FFFFFF"
+            android:textColor="#9C27B0"
             android:textSize="36sp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"/>
@@ -359,37 +374,39 @@
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginRight="4dp"
             android:background="@drawable/button_shape"
             android:backgroundTint="@color/blue"
-
             android:onClick="checkAnswerP2"
             android:tag="0"
             android:text="Button"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/answer1P2"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginRight="4dp"
             android:background="@drawable/btn_shape_orange"
-            android:backgroundTint="@android:color/holo_orange_dark"
+            android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="1"
             android:text="Button"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/answer2P2"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginRight="4dp"
             android:background="@drawable/btn_shape_green"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="2"
             android:text="Button"
-            android:textSize="24sp" />
+            android:textSize="22sp" />
 
         <Button
             android:id="@+id/answer3P2"
@@ -397,11 +414,13 @@
             android:layout_height="120dp"
             android:layout_weight="1"
             android:background="@drawable/btn_shape_darkblue"
+            android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="3"
             android:text="Button"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
+            android:textSize="22sp"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </RelativeLayout>

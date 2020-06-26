@@ -65,22 +65,23 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:layout_weight="1"
                 android:id="@+id/return_to_menu"
                 android:src="@drawable/ic_arrow_back_black_24dp"
-                android:scaleType="centerInside"
+                android:textSize="30sp"
+                android:text="BACK"
                 android:background="#00000000"/>
 
-            <ImageButton
-                android:layout_width="0dp"
+            <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="0dp"
                 android:layout_height="75dp"
                 android:layout_weight="1"
                 android:id="@+id/return_to_game"
-                android:src="@drawable/ic_play_circle_outline_bl_24dp"
-                android:scaleType="centerInside"
+                android:textSize="30sp"
+                android:text="SAVE"
                 android:background="#00000000"/>
 
         </LinearLayout>

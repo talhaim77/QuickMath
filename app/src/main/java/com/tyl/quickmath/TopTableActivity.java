@@ -13,9 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tyl.quickmath.databinding.ActivityMainBinding;
-import com.tyl.quickmath.fragments.FragmentViewPagerActivity;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +27,12 @@ public class TopTableActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_top5);
+        setContentView(R.layout.activity_top10);
         game_level = getIntent().getStringExtra("level");
         global = GlobalClass.getInstance();
         sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        Button newGame = findViewById(R.id.top_table_newgame);
+        Button newGame = findViewById(R.id.top_table_back);
         Button returnHome = findViewById(R.id.top_table_backtomenu);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

@@ -24,6 +24,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.tyl.quickmath.databinding.ActivityGame2Binding;
+import com.tyl.quickmath.fragments.EasyFragment;
+import com.tyl.quickmath.fragments.FragmentViewPagerActivity;
+import com.tyl.quickmath.fragments.HardFragment;
+import com.tyl.quickmath.fragments.MediumFragment;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -46,17 +51,17 @@ public class GameActivity extends AppCompatActivity {
     TextView questionTextP1,questionTextP2,questionTextP3;
     TextView questionCounterP1,questionCounterP2;
     LinearLayout answerLayoutP1,answerLayoutP2,timerLayoutP1,timerLayoutP2, labelsP1, labelsP2;
-    ImageButton playAgainButton;
+    Button playAgainButton;
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
     int answerIndex, minOfTop10;
     int count_the_question,count_tie_question;
     String gameLvl;
-    boolean isHard,tieScore;
+    boolean isEasy,isMed,isHard,tieScore;
     ArrayList<Integer> questionArray;
-    ImageButton backDialog;
-
+    Button backDialog;
+    ActivityGame2Binding binding;
     AnswerArrays numArrays,medArrays,hardArrays;
     //ArrayList<Integer> answerArrayLow;
     private int scoreP2=0;
@@ -100,6 +105,8 @@ public class GameActivity extends AppCompatActivity {
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
         scoreTextP2 = findViewById(R.id.scoreP2);
+        isEasy = gameLvl.equals("easyP2");
+        isMed = gameLvl.equals("mediumP2");
         isHard = gameLvl.equals("hardP2");
         setArrayValues(game_level);
         scoresArray = new ArrayList<>();
@@ -166,34 +173,89 @@ public class GameActivity extends AppCompatActivity {
         Collections.sort(scoresArray);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("highscore1",scoresArray.get(0).getScore());
-        editor.putInt("highscore2",scoresArray.get(1).getScore());
-        editor.putInt("highscore3",scoresArray.get(2).getScore());
-        editor.putInt("highscore4",scoresArray.get(3).getScore());
-        editor.putInt("highscore5",scoresArray.get(4).getScore());
-        editor.putInt("highscore6",scoresArray.get(5).getScore());
-        editor.putInt("highscore7",scoresArray.get(6).getScore());
-        editor.putInt("highscore8",scoresArray.get(7).getScore());
-        editor.putInt("highscore9",scoresArray.get(8).getScore());
-        editor.putInt("highscore10",scoresArray.get(9).getScore());
+        if(isEasy){
+            editor.putInt("e_score1",scoresArray.get(0).getScore());
+            editor.putInt("e_score2",scoresArray.get(1).getScore());
+            editor.putInt("e_score3",scoresArray.get(2).getScore());
+            editor.putInt("e_score4",scoresArray.get(3).getScore());
+            editor.putInt("e_score5",scoresArray.get(4).getScore());
+            editor.putInt("e_score6",scoresArray.get(5).getScore());
+            editor.putInt("e_score7",scoresArray.get(6).getScore());
+            editor.putInt("e_score8",scoresArray.get(7).getScore());
+            editor.putInt("e_score9",scoresArray.get(8).getScore());
+            editor.putInt("e_score10",scoresArray.get(9).getScore());
 
-        editor.putString("score1_name",scoresArray.get(0).getName());
-        editor.putString("score2_name",scoresArray.get(1).getName());
-        editor.putString("score3_name",scoresArray.get(2).getName());
-        editor.putString("score4_name",scoresArray.get(3).getName());
-        editor.putString("score5_name",scoresArray.get(4).getName());
-        editor.putString("score6_name",scoresArray.get(5).getName());
-        editor.putString("score7_name",scoresArray.get(6).getName());
-        editor.putString("score8_name",scoresArray.get(7).getName());
-        editor.putString("score9_name",scoresArray.get(8).getName());
-        editor.putString("score10_name",scoresArray.get(9).getName());
+            editor.putString("e_score1_name",scoresArray.get(0).getName());
+            editor.putString("e_score2_name",scoresArray.get(1).getName());
+            editor.putString("e_score3_name",scoresArray.get(2).getName());
+            editor.putString("e_score4_name",scoresArray.get(3).getName());
+            editor.putString("e_score5_name",scoresArray.get(4).getName());
+            editor.putString("e_score6_name",scoresArray.get(5).getName());
+            editor.putString("e_score7_name",scoresArray.get(6).getName());
+            editor.putString("e_score8_name",scoresArray.get(7).getName());
+            editor.putString("e_score9_name",scoresArray.get(8).getName());
+            editor.putString("e_score10_name",scoresArray.get(9).getName());
+        }
+        else if(isMed){
+            editor.putInt("m_score1",scoresArray.get(0).getScore());
+            editor.putInt("m_score2",scoresArray.get(1).getScore());
+            editor.putInt("m_score3",scoresArray.get(2).getScore());
+            editor.putInt("m_score4",scoresArray.get(3).getScore());
+            editor.putInt("m_score5",scoresArray.get(4).getScore());
+            editor.putInt("m_score6",scoresArray.get(5).getScore());
+            editor.putInt("m_score7",scoresArray.get(6).getScore());
+            editor.putInt("m_score8",scoresArray.get(7).getScore());
+            editor.putInt("m_score9",scoresArray.get(8).getScore());
+            editor.putInt("m_score10",scoresArray.get(9).getScore());
+
+            editor.putString("m_score1_name",scoresArray.get(0).getName());
+            editor.putString("m_score2_name",scoresArray.get(1).getName());
+            editor.putString("m_score3_name",scoresArray.get(2).getName());
+            editor.putString("m_score4_name",scoresArray.get(3).getName());
+            editor.putString("m_score5_name",scoresArray.get(4).getName());
+            editor.putString("m_score6_name",scoresArray.get(5).getName());
+            editor.putString("m_score7_name",scoresArray.get(6).getName());
+            editor.putString("m_score8_name",scoresArray.get(7).getName());
+            editor.putString("m_score9_name",scoresArray.get(8).getName());
+            editor.putString("m_score10_name",scoresArray.get(9).getName());
+        }
+        else{
+            editor.putInt("h_score1",scoresArray.get(0).getScore());
+            editor.putInt("h_score2",scoresArray.get(1).getScore());
+            editor.putInt("h_score3",scoresArray.get(2).getScore());
+            editor.putInt("h_score4",scoresArray.get(3).getScore());
+            editor.putInt("h_score5",scoresArray.get(4).getScore());
+            editor.putInt("h_score6",scoresArray.get(5).getScore());
+            editor.putInt("h_score7",scoresArray.get(6).getScore());
+            editor.putInt("h_score8",scoresArray.get(7).getScore());
+            editor.putInt("h_score9",scoresArray.get(8).getScore());
+            editor.putInt("h_score10",scoresArray.get(9).getScore());
+
+            editor.putString("h_score1_name",scoresArray.get(0).getName());
+            editor.putString("h_score2_name",scoresArray.get(1).getName());
+            editor.putString("h_score3_name",scoresArray.get(2).getName());
+            editor.putString("h_score4_name",scoresArray.get(3).getName());
+            editor.putString("h_score5_name",scoresArray.get(4).getName());
+            editor.putString("h_score6_name",scoresArray.get(5).getName());
+            editor.putString("h_score7_name",scoresArray.get(6).getName());
+            editor.putString("h_score8_name",scoresArray.get(7).getName());
+            editor.putString("h_score9_name",scoresArray.get(8).getName());
+            editor.putString("h_score10_name",scoresArray.get(9).getName());
+        }
+
         editor.commit();
     }
 
     private void newHighScoreCheck() {
         //int maxScore = Integer.max(scoreP1,scoreP2);
         maxScore = (scoreP1 > scoreP2 ? scoreP1 : scoreP2) ;
-        minOfTop10 = sharedPreferences.getInt("highscore5",0);
+        if(isEasy)
+        minOfTop10 = sharedPreferences.getInt("e_score10",0);
+        else if(isMed)
+            minOfTop10 = sharedPreferences.getInt("m_score10",0);
+        else
+            minOfTop10 = sharedPreferences.getInt("h_score10",0);
+
 
         if ( maxScore > minOfTop10)
             new_high_score = true;
@@ -214,31 +276,35 @@ public class GameActivity extends AppCompatActivity {
 
 
                     final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
-//
-//                    final Runnable r = new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            CommonConfetti.rainingConfetti(container, new int[] { Color.BLUE ,Color.YELLOW, Color.RED, Color.GREEN})
-//                                    .infinite();
-//                        }
-//                    };
-//                    hndlr.postDelayed(r,600 );
 
-                    ImageButton returnBtn = dialogview.findViewById(R.id.return_to_game);
-                    final Intent top_intent = new Intent(GameActivity.this, TopTableActivity.class);
-                    top_intent.putExtra("level", gameLvl);
+
+                    Button returnBtn = dialogview.findViewById(R.id.return_to_game);
+
 
                     returnBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //to do : update shared prefferences with name and picture
                             String username = userEt.getText().toString();
                             scoresArray.add(5,new Person(username,maxScore));
                             updateHighScore();
                             maxScore = 0;
                             new_high_score = false;
                             dialog.dismiss();
-                            startActivity(top_intent);
+                            //try to open specific-fragment
+                            Intent i = new Intent(GameActivity.this, FragmentViewPagerActivity.class);
+                            if(isEasy){
+                                i.putExtra("frgToLoad",0);
+                            }
+                            else if(isMed)
+                                i.putExtra("frgToLoad", 1);
+                            else
+                                i.putExtra("frgToLoad", 2);
+
+                            i.putExtra("fromMain",false);
+                            startActivity(i);
+
+                            //end
+                            //startActivity(new Intent(GameActivity.this, FragmentViewPagerActivity.class));
                         }
                     });
 

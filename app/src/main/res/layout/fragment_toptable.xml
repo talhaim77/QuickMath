@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:keepScreenOn="true"
-    android:weightSum="10"
+    android:orientation="vertical"
     android:background="@drawable/bg_toptable"
-    tools:context=".TopTableActivity"
-    android:orientation="vertical">
+    tools:context=".fragments.EasyFragment">
 
     <TextView android:id="@+id/top_users"
         android:layout_width="wrap_content"
@@ -17,7 +16,8 @@
         android:padding="8dp"
         android:textColor="#009688"
         android:textSize="30dp"
-        android:text="Top 5 users" />
+        android:textStyle="bold"
+        android:text="TOP PLAYERS" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -37,29 +37,28 @@
         android:weightSum="2"
         android:gravity="right">
         <Button
-            android:id="@+id/top_table_newgame"
+            android:id="@+id/top_table_back"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:textSize="20sp"
-            android:text="NEW GAME"
+            android:text="BACK"
             android:scaleType="centerInside"
             android:background="@drawable/button_shape"/>
         <Button
-        android:id="@+id/top_table_backtomenu"
-        android:layout_width="wrap_content"
+            android:id="@+id/top_table_backtomenu"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginRight="10dp"
-        android:textSize="20sp"
-        android:text="HOME"
-        android:scaleType="centerInside"
-        android:background="@drawable/button_shape"/>
+            android:textSize="20sp"
+            android:text="HOME"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_shape"/>
 
 
 
     </LinearLayout>
-
 </LinearLayout>

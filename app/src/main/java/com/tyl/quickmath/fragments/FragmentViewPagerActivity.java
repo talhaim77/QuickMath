@@ -14,14 +14,18 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
     ActivityFragmentViewPagerBinding binding;
 
     // tab titles
-    private String[] titles = new String[]{"Movies", "Events", "Tickets"};
-
+    private String[] titles = new String[]{"Easy", "Medium", "Hard"};
+    int intentFragment;
+    boolean fromMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fromMain = getIntent().getExtras().getBoolean("fromMain");
         binding = ActivityFragmentViewPagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        intentFragment = getIntent().getExtras().getInt("frgToLoad");
         init();
+
     }
 
     private void init() {
@@ -29,7 +33,7 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         binding.viewPager.setAdapter(new ViewPagerFragmentAdapter(this));
-
+        binding.viewPager.setCurrentItem(intentFragment);
         // attaching tab mediator
         new TabLayoutMediator(binding.tabLayout, binding.viewPager,
                 (tab, position) -> tab.setText(titles[position])).attach();
@@ -46,13 +50,13 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return new MoviesFragment();
+                    return new EasyFragment();
                 case 1:
-                    return new EventsFragment();
+                    return new MediumFragment();
                 case 2:
-                    return new TicketsFragment();
+                    return new HardFragment();
             }
-            return new MoviesFragment();
+            return new EasyFragment();
         }
 
         @Override

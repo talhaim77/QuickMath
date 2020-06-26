@@ -40,7 +40,7 @@ public class GameActivitySolo extends AppCompatActivity {
     TextView questionTextP1, questionTextP3;
     TextView questionCounterP1;
     LinearLayout answerLayoutP1, timerLayoutP1, labelsP1;
-    ImageButton playAgainButton;
+    Button playAgainButton;
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
