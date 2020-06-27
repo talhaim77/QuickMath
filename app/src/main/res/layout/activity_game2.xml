@@ -173,19 +173,19 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             android:textStyle="bold"
-            android:text="Timer"/>
+            android:text="@string/timer"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:textStyle="bold"
-            android:text="Round"/>
+            android:text="@string/round"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Score"
+            android:text="@string/score"
             android:layout_marginLeft="95dp"/>
 
     </LinearLayout>
@@ -272,19 +272,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Timer"/>
+            android:text="@string/timer"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="90dp"
             android:textStyle="bold"
-            android:text="Round"/>
+            android:text="@string/round"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="90dp"
             android:textStyle="bold"
-            android:text="Score"/>
+            android:text="@string/score"/>
     </LinearLayout>
 
 
@@ -380,7 +380,8 @@
             android:onClick="checkAnswerP2"
             android:tag="0"
             android:text="Button"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer1P2"
@@ -393,7 +394,8 @@
             android:onClick="checkAnswerP2"
             android:tag="1"
             android:text="Button"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer2P2"
@@ -406,13 +408,15 @@
             android:onClick="checkAnswerP2"
             android:tag="2"
             android:text="Button"
-            android:textSize="22sp" />
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/answer3P2"
             android:layout_width="0dp"
             android:layout_height="120dp"
             android:layout_weight="1"
+            android:layout_marginRight="4dp"
             android:background="@drawable/btn_shape_darkblue"
             android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"

@@ -58,6 +58,10 @@ public class HardFragment extends Fragment {
             startActivity(new Intent(getActivity(), MainActivity.class));
 
         });
+        Button backBtn = rootView.findViewById(R.id.top_table_back);
+        backBtn.setOnClickListener(v -> {
+            getActivity().finish();
+        });
         return rootView;
     }
 

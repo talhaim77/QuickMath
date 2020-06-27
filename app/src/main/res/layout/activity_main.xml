@@ -50,7 +50,7 @@
            android:layout_weight="2"
            android:fontFamily="@font/paprika"
            android:lineSpacingExtra="6dp"
-           android:text="EASY"
+           android:text="@string/easy"
            android:textAlignment="center"
            android:textAllCaps="false"
            android:textColor="@color/black"
@@ -112,7 +112,7 @@
             android:layout_weight="2"
             android:fontFamily="@font/paprika"
             android:lineSpacingExtra="6dp"
-            android:text="MEDIUM"
+            android:text="@string/medium"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/black"
@@ -175,7 +175,7 @@
             android:layout_weight="2"
             android:fontFamily="@font/paprika"
             android:lineSpacingExtra="6dp"
-            android:text="HARD"
+            android:text="@string/hard"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/black"
@@ -217,28 +217,29 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:lineSpacingExtra="6dp"
-        android:text="Best Players"
+        android:text="@string/best_players"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="26sp"/>
 
-
-
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
     <LinearLayout
         android:id="@+id/sound_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/top_table_activity"
-        android:layout_marginTop="20dp">
-        <Button
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="140dp">
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/musicBtn"
-            android:layout_width="68dp"
-            android:layout_height="60dp"
+            android:layout_width="60dp"
+            android:layout_height="68dp"
             android:backgroundTint="@color/white"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp" />
     </LinearLayout>
-
+    </FrameLayout>
 
 </RelativeLayout>

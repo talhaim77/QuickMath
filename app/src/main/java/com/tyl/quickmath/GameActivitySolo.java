@@ -12,7 +12,9 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,15 +33,21 @@ import java.util.Locale;
 import java.util.Random;
 
 import pl.droidsonroids.gif.GifTextView;
+/*
+TODO:
+-if answer is not currect,try again.
+ -change buttons color and text size
 
+ */
 public class GameActivitySolo extends AppCompatActivity {
     GlobalClass global;
     MediaPlayer mediaPlayer;
     TextView timeCountDownP1;
     TextView scoreTextP1, tieTVP1;
-    TextView questionTextP1, questionTextP3;
+    TextView questionTextP1;
     TextView questionCounterP1;
-    LinearLayout answerLayoutP1, timerLayoutP1, labelsP1;
+    androidx.gridlayout.widget.GridLayout  answerLayoutP1;
+    LinearLayout timerLayoutP1, labelsP1;
     Button playAgainButton;
     GifTextView gifImageView;
     CountDownTimer countDown;
@@ -60,6 +68,7 @@ public class GameActivitySolo extends AppCompatActivity {
     private int maxScore;
     final Handler hndlr = new Handler();
     LottieAnimationView winAnim;
+    View dialView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         global = GlobalClass.getInstance();
@@ -75,7 +84,7 @@ public class GameActivitySolo extends AppCompatActivity {
         timerLayoutP1 = findViewById(R.id.layout_p1);
 
         questionCounterP1 = findViewById(R.id.questionCounterP1);
-        answerLayoutP1 = findViewById(R.id.answersButtons);
+        answerLayoutP1 = findViewById(R.id.answersNN);
 
         labelsP1 = findViewById(R.id.labelsP1);
 
@@ -181,18 +190,37 @@ public void checkAnswerP1(View view) {
     disableBtns();
     if (view.getTag().toString().equals(Integer.toString(answerIndex))) {
         scoreP1++;
-    }
-    scoreTextP1.setText(Integer.toString(scoreP1));
+        scoreTextP1.setText(Integer.toString(scoreP1));
 
-    final Handler handler = new Handler();
-    handler.postDelayed(new Runnable() {
-        @Override
-        public void run() {
-            //loading next question after 250ms
+        final Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            //loading next question after 20ms
             getNextQuestionAnswer();
             enableBtns();
-        }
-    }, 250);
+        }, 20);
+    }
+    else{
+        AlertDialog.Builder builder = new AlertDialog.Builder(GameActivitySolo.this,R.style.WrongDialog);
+        dialView = getLayoutInflater().inflate(R.layout.wrong_ans_dialog, null);
+        builder.setView(dialView).setCancelable(false);
+        ImageView imageView = dialView.findViewById(R.id.wap);
+        imageView.setImageResource(R.drawable.wrong_png_3);
+        final AlertDialog dialog = builder.show();
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+            }
+            @Override
+            public void onFinish() {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        }.start();
+        enableBtns();
+
+    }
+
+
 
 }
 
@@ -214,13 +242,13 @@ public void checkAnswerP1(View view) {
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easyP1":
-                millisInFuture = 30000;
+                millisInFuture = 25000;
                 break;
             case "mediumP1":
-                millisInFuture = 10000;
+                millisInFuture = 30000;
                 break;
             case "hardP1":
-                millisInFuture = 10000;
+                millisInFuture = 35000;
                 break;
         }
         countDown = new CountDownTimer(millisInFuture, 1000) {

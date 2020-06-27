@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_fragment_slider">משתמשים מובילים</string>
+    <string name="easy">קל</string>
+    <string name="medium">בינוני</string>
+    <string name="hard">קשה</string>
+    <string name="enter_your_name">הכנס את שמך</string>
+    <string name="newhscore">שברת שיא חדש</string>
+    <string name="best_players">טבלת שיאים</string>
+    <string name="round">סבב</string>
+    <string name="timer">סטופר</string>
+    <string name="score">ניקוד</string>
+    <string name="play_again">שחק שנית!</string>
+</resources>

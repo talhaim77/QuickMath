@@ -33,33 +33,39 @@
         android:id="@+id/labelsP1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="38dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="38dp"
+        android:weightSum="3"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="Timer"/>
+            android:text="@string/timer"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="80dp"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="center"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="Round"/>
+            android:text="@string/round"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="85dp"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="end"
+            android:layout_marginRight="10dp"
             android:textSize="16sp"
             android:textColor="@color/black"
-            android:text="Score"/>
+            android:text="@string/score"/>
     </LinearLayout>
 
 
@@ -132,7 +138,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:layout_below="@id/questionTextP1"
         android:id="@+id/space2"/>
 
@@ -140,69 +146,183 @@
         android:id="@+id/imgBtnPlayAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="80dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/questionTextP1"
         android:onClick="playAgain"
-        android:text="Play Again!"
+        android:text="@string/play_again"
         android:textStyle="italic"
         android:backgroundTint="@color/blue"
         android:textSize="26sp"
         android:src="@drawable/play_btn"
         android:visibility="visible"/>
-    <LinearLayout
-        android:id="@+id/answersButtons"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+<!--    <LinearLayout-->
+<!--        android:id="@+id/answersButtons"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:layout_below="@+id/space2"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginRight="6dp"-->
+<!--        android:layout_marginLeft="6dp"-->
+<!--        android:layout_margin="3dp">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/answer0P1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/button_shape"-->
+<!--            android:backgroundTint="@color/blue"-->
+<!--            android:onClick="checkAnswerP1"-->
+<!--            android:tag="0"-->
+<!--            android:text="Button"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/answer1P1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginRight="4dp"-->
+<!--            android:layout_marginLeft="4dp"-->
+<!--            android:background="@drawable/button_shape"-->
+<!--            android:backgroundTint="@color/blue"-->
+<!--            android:onClick="checkAnswerP1"-->
+<!--            android:tag="1"-->
+<!--            android:text="Button"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold" />-->
+
+
+<!--    </LinearLayout>-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/answersButtonsLow"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="150dp"-->
+<!--        android:layout_below="@+id/answersButtons"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginRight="6dp"-->
+<!--        android:layout_marginLeft="6dp"-->
+<!--        android:layout_margin="3dp">-->
+
+<!--        <Button-->
+<!--            android:id="@+id/answer2P1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:background="@drawable/button_shape"-->
+<!--            android:backgroundTint="@color/blue"-->
+<!--            android:onClick="checkAnswerP1"-->
+<!--            android:tag="2"-->
+<!--            android:text="Button"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/answer3P1"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="150dp"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_marginRight="4dp"-->
+<!--            android:layout_marginLeft="4dp"-->
+<!--            android:background="@drawable/button_shape"-->
+<!--            android:backgroundTint="@color/blue"-->
+<!--            android:onClick="checkAnswerP1"-->
+<!--            android:tag="3"-->
+<!--            android:text="Button"-->
+<!--            android:textColor="#FFFFFF"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold" />-->
+
+<!--    </LinearLayout>-->
+
+
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/answersNN"
         android:layout_below="@+id/space2"
-        android:orientation="horizontal"
-        android:layout_margin="3dp">
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="37dp"
+        app:columnCount="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rowCount="2">
+            <Button
+                android:id="@+id/answer0P1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_shape"
+                android:backgroundTint="@color/blue"
+                android:onClick="checkAnswerP1"
+                android:tag="0"
+                android:text="Button"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_column="0"
+                app:layout_columnWeight="1"
+                app:layout_row="0"
+                app:layout_rowWeight="1"/>
 
-        <Button
-            android:id="@+id/answer0P1"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_shape"
-            android:onClick="checkAnswerP1"
-            android:tag="0"
-            android:text="Button"
-            android:textSize="24sp" />
+            <Button
+                android:id="@+id/answer1P1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/button_shape"
+                android:backgroundTint="@color/blue"
+                android:onClick="checkAnswerP1"
+                android:tag="1"
+                android:text="Button"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_column="1"
+                app:layout_columnWeight="1"
+                app:layout_row="0"
+                app:layout_rowWeight="1"/>
 
-        <Button
-            android:id="@+id/answer1P1"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_shape_orange"
-            android:onClick="checkAnswerP1"
-            android:tag="1"
-            android:text="Button"
-            android:textSize="24sp" />
-
-        <Button
-            android:id="@+id/answer2P1"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_shape_green"
-            android:onClick="checkAnswerP1"
-            android:tag="2"
-            android:text="Button"
-            android:textSize="24sp" />
-
+                <Button
+                    android:id="@+id/answer2P1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_shape"
+                    android:backgroundTint="@color/blue"
+                    android:onClick="checkAnswerP1"
+                    android:tag="2"
+                    android:text="Button"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_column="0"
+                    app:layout_columnWeight="1"
+                    app:layout_row="1"
+                    app:layout_rowWeight="1"/>
         <Button
             android:id="@+id/answer3P1"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_shape_darkblue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="4dp"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP1"
             android:tag="3"
             android:text="Button"
             android:textColor="#FFFFFF"
-            android:textSize="24sp" />
-    </LinearLayout>
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_column="1"
+            app:layout_columnWeight="1"
+            app:layout_row="1"
+            app:layout_rowWeight="1"/>
+
+
+    </androidx.gridlayout.widget.GridLayout>
+
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="20dp"

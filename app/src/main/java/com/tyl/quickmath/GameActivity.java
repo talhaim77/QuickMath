@@ -262,53 +262,46 @@ public class GameActivity extends AppCompatActivity {
 
         if (new_high_score) {
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
-                    final View dialogview = getLayoutInflater().inflate(R.layout.new_high_score, null);
-                    builder.setView(dialogview).setCancelable(false);
-                    TextView dialogScoreTv = dialogview.findViewById(R.id.myhighscore);
-                    dialogScoreTv.setText(Integer.toString(maxScore));
-                    final EditText userEt = dialogview.findViewById(R.id.username);
-                    final AlertDialog dialog = builder.create();
-                    dialog.show();
+            handler.postDelayed(() -> {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+                final View dialogview = getLayoutInflater().inflate(R.layout.new_high_score, null);
+                builder.setView(dialogview).setCancelable(false);
+                TextView dialogScoreTv = dialogview.findViewById(R.id.myhighscore);
+                dialogScoreTv.setText(Integer.toString(maxScore));
+                final EditText userEt = dialogview.findViewById(R.id.username);
+                final AlertDialog dialog = builder.create();
+                dialog.show();
 
 
-                    final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
+                Button returnBtn = dialogview.findViewById(R.id.return_to_game);
 
 
-                    Button returnBtn = dialogview.findViewById(R.id.return_to_game);
-
-
-                    returnBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            String username = userEt.getText().toString();
-                            scoresArray.add(5,new Person(username,maxScore));
-                            updateHighScore();
-                            maxScore = 0;
-                            new_high_score = false;
-                            dialog.dismiss();
-                            //try to open specific-fragment
-                            Intent i = new Intent(GameActivity.this, FragmentViewPagerActivity.class);
-                            if(isEasy){
-                                i.putExtra("frgToLoad",0);
-                            }
-                            else if(isMed)
-                                i.putExtra("frgToLoad", 1);
-                            else
-                                i.putExtra("frgToLoad", 2);
-
-                            i.putExtra("fromMain",false);
-                            startActivity(i);
-
-                            //end
-                            //startActivity(new Intent(GameActivity.this, FragmentViewPagerActivity.class));
+                returnBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String username = userEt.getText().toString();
+                        scoresArray.add(10,new Person(username,maxScore));
+                        updateHighScore();
+                        maxScore = 0;
+                        new_high_score = false;
+                        dialog.dismiss();
+                        //try to open specific-fragment
+                        Intent i = new Intent(GameActivity.this, FragmentViewPagerActivity.class);
+                        if(isEasy){
+                            i.putExtra("frgToLoad",0);
                         }
-                    });
+                        else if(isMed)
+                            i.putExtra("frgToLoad", 1);
+                        else
+                            i.putExtra("frgToLoad", 2);
 
-                }
+                        i.putExtra("fromMain",false);
+                        startActivity(i);
+
+
+                    }
+                });
+
             }, 0);
         }
         else //game over,do nothing

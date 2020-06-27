@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -66,9 +67,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        } else {
 //            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
 //        }
+
         if(sharedPreferences.getBoolean("mute_music",false)){
+            music.setPadding(10, 0, 0, 0);
             music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_off),null,null,null);
+
         }else{
+            music.setPadding(10, 0, 0, 0);
+//            music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on),null,null,null);
             music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on),null,null,null);
         }
         binding.topTableActivity.setOnClickListener(view -> {

@@ -65,7 +65,6 @@ List<Person> personList;
 
         });
         Button backBtn = rootView.findViewById(R.id.top_table_back);
-
         backBtn.setOnClickListener(v -> {
           getActivity().finish();
         });
