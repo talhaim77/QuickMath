@@ -11,5 +11,14 @@
     <string name="timer">Timer</string>
     <string name="score">Score</string>
     <string name="play_again">Play Again!</string>
+    <string name="game_over">Game Over</string>
+    <string name="save">SAVE</string>
+    <string name="back">BACK</string>
+    <string name="button">Button</string>
+    <string name="questiondes">1 + 1</string>
+    <string name="top_players">TOP PLAYERS</string>
+    <string name="oneplayer">1P</string>
+    <string name="twoplayer">2P</string>
+    <string name="home">HOME</string>
 
 </resources>

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.tyl.quickmath.R;
 import com.tyl.quickmath.databinding.ActivityFragmentViewPagerBinding;
 
 public class FragmentViewPagerActivity extends AppCompatActivity {
@@ -14,7 +15,13 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
     ActivityFragmentViewPagerBinding binding;
 
     // tab titles
+
     private String[] titles = new String[]{"Easy", "Medium", "Hard"};
+//    String a = getResources().getString(R.string.easy) ;
+//    String b = getResources().getString(R.string.medium);
+//    String c = getResources().getString(R.string.hard);
+//    private String[] titles = new String[]{a,b,c};
+
     int intentFragment;
     boolean fromMain;
     @Override

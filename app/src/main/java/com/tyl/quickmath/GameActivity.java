@@ -55,6 +55,7 @@ public class GameActivity extends AppCompatActivity {
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
+    String appLanguage;
     int answerIndex, minOfTop10;
     int count_the_question,count_tie_question;
     String gameLvl;
@@ -81,7 +82,7 @@ public class GameActivity extends AppCompatActivity {
         gameLvl = game_level;
         sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
         global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
-
+        appLanguage = Locale.getDefault().getLanguage();
         timeCountDownP1 = findViewById(R.id.timeCountDownP1);
         timeCountDownP2 = findViewById(R.id.timeCountDownP2);
         questionTextP1 = findViewById(R.id.questionTextP1);
@@ -247,7 +248,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void newHighScoreCheck() {
-        //int maxScore = Integer.max(scoreP1,scoreP2);
         maxScore = (scoreP1 > scoreP2 ? scoreP1 : scoreP2) ;
         if(isEasy)
         minOfTop10 = sharedPreferences.getInt("e_score10",0);
@@ -255,7 +255,6 @@ public class GameActivity extends AppCompatActivity {
             minOfTop10 = sharedPreferences.getInt("m_score10",0);
         else
             minOfTop10 = sharedPreferences.getInt("h_score10",0);
-
 
         if ( maxScore > minOfTop10)
             new_high_score = true;
@@ -272,9 +271,7 @@ public class GameActivity extends AppCompatActivity {
                 final AlertDialog dialog = builder.create();
                 dialog.show();
 
-
                 Button returnBtn = dialogview.findViewById(R.id.return_to_game);
-
 
                 returnBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -306,6 +303,7 @@ public class GameActivity extends AppCompatActivity {
         }
         else //game over,do nothing
         {
+            playAgainButton.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -313,17 +311,48 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void initScoresTable() {
-        minOfTop10 = sharedPreferences.getInt("highscore10",0);
-        scoresArray.add(0,new Person(sharedPreferences.getString("score1_name","Player"),sharedPreferences.getInt("highscore1",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score2_name","Player"),sharedPreferences.getInt("highscore2",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score3_name","Player"),sharedPreferences.getInt("highscore3",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score4_name","Player"),sharedPreferences.getInt("highscore4",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score5_name","Player"),sharedPreferences.getInt("highscore5",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score6_name","Player"),sharedPreferences.getInt("highscore6",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score7_name","Player"),sharedPreferences.getInt("highscore7",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score8_name","Player"),sharedPreferences.getInt("highscore8",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score9_name","Player"),sharedPreferences.getInt("highscore9",0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score10_name","Player"),sharedPreferences.getInt("highscore10",0)));
+        if(isEasy){
+            minOfTop10 = sharedPreferences.getInt("e_score10", 0);
+            scoresArray.add(0, new Person(sharedPreferences.getString("e_score1_name", "Player"), sharedPreferences.getInt("e_score1", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score2_name", "Player"), sharedPreferences.getInt("e_score2", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score3_name", "Player"), sharedPreferences.getInt("e_score3", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score4_name", "Player"), sharedPreferences.getInt("e_score4", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score5_name", "Player"), sharedPreferences.getInt("e_score5", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score6_name", "Player"), sharedPreferences.getInt("e_score6", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score7_name", "Player"), sharedPreferences.getInt("e_score7", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score8_name", "Player"), sharedPreferences.getInt("e_score8", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score9_name", "Player"), sharedPreferences.getInt("e_score9", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score10_name", "Player"), sharedPreferences.getInt("e_score10", 0)));
+
+        }
+        else if(isMed){
+            minOfTop10 = sharedPreferences.getInt("m_score10", 0);
+            scoresArray.add(0, new Person(sharedPreferences.getString("m_score1_name", "Player"), sharedPreferences.getInt("m_score1", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score2_name", "Player"), sharedPreferences.getInt("m_score2", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score3_name", "Player"), sharedPreferences.getInt("m_score3", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score4_name", "Player"), sharedPreferences.getInt("m_score4", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score5_name", "Player"), sharedPreferences.getInt("m_score5", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score6_name", "Player"), sharedPreferences.getInt("m_score6", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score7_name", "Player"), sharedPreferences.getInt("m_score7", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score8_name", "Player"), sharedPreferences.getInt("m_score8", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score9_name", "Player"), sharedPreferences.getInt("m_score9", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score10_name", "Player"), sharedPreferences.getInt("m_score10", 0)));
+
+        }
+        else{
+            minOfTop10 = sharedPreferences.getInt("h_score10", 0);
+            scoresArray.add(0, new Person(sharedPreferences.getString("h_score1_name", "Player"), sharedPreferences.getInt("h_score1", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score2_name", "Player"), sharedPreferences.getInt("h_score2", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score3_name", "Player"), sharedPreferences.getInt("h_score3", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score4_name", "Player"), sharedPreferences.getInt("h_score4", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score5_name", "Player"), sharedPreferences.getInt("h_score5", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score6_name", "Player"), sharedPreferences.getInt("h_score6", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score7_name", "Player"), sharedPreferences.getInt("h_score7", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score8_name", "Player"), sharedPreferences.getInt("h_score8", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score9_name", "Player"), sharedPreferences.getInt("h_score9", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score10_name", "Player"), sharedPreferences.getInt("h_score10", 0)));
+        }
+
     }
 
     private void startGame() {
@@ -423,7 +452,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void getNextQuestionAnswer() {
-        if (count_the_question > 30) {
+        if (count_the_question > 50) {
             endGame();
         }
         else if(tieScore&&count_tie_question==5){
@@ -602,14 +631,20 @@ public class GameActivity extends AppCompatActivity {
             }
 
             //Set qn text
-            questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
-            questionTextP2.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
+            if (appLanguage.equals("en")){
+                questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
+                questionTextP2.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
+            }
+            else{
+                questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", secondQnInt, operation,firstQnInt ));
+                questionTextP2.setText(String.format(Locale.ENGLISH, "%d %s %d", secondQnInt, operation, firstQnInt));
+            }
 
             if(tieScore){
                 tieTVP1.setText(String.format(Locale.ENGLISH, "Round%d",count_tie_question+1 ));
             }
             //Set qn counter
-            String qnCounterTxt = String.format(Locale.ENGLISH, "%d/20", count_the_question);
+            String qnCounterTxt = String.format(Locale.ENGLISH, "%d/50", count_the_question);
             questionCounterP1.setText(qnCounterTxt);
             questionCounterP2.setText(qnCounterTxt);
             count_the_question++;
@@ -650,13 +685,13 @@ public class GameActivity extends AppCompatActivity {
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easyP2":
-                millisInFuture = 20000;
+                millisInFuture = 35000;
                 break;
             case "mediumP2":
-                millisInFuture = 10000;
+                millisInFuture = 40000;
                 break;
             case "hardP2":
-                millisInFuture = 10000;
+                millisInFuture = 50000;
                 break;
         }
 
@@ -684,15 +719,24 @@ public class GameActivity extends AppCompatActivity {
                 winnerAnim();
                 }
                 final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        newHighScoreCheck();
-                    }
-                }, 2050);
+                if(new_high_score){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            newHighScoreCheck();
+                        }
+                    }, 2000);
+                }
+                else {
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            newHighScoreCheck();
+                        }
+                    }, 300);
+                }
 
-                    //Show playAgain button
-                    showView(playAgainButton);
+
                     //Set gamestate to inactive
                     isActive = false;
                 }
@@ -709,6 +753,16 @@ public class GameActivity extends AppCompatActivity {
         hideView(labelsP1);
         hideView(labelsP2);
         playAgainButton.setVisibility(View.INVISIBLE);
+        if(isEasy)
+            minOfTop10 = sharedPreferences.getInt("e_score10",0);
+        else if(isMed)
+            minOfTop10 = sharedPreferences.getInt("m_score10",0);
+        else
+            minOfTop10 = sharedPreferences.getInt("h_score10",0);
+
+        if (scoreP1 > minOfTop10)
+            new_high_score = true;
+
         if (scoreP1 > scoreP2) {
             winnerP1.setVisibility(View.VISIBLE);
             showView(winnerP1);
@@ -718,18 +772,19 @@ public class GameActivity extends AppCompatActivity {
             showView(winnerP2);
             winnerP2.playAnimation();
         }
+
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (scoreP1 > scoreP2)
-                winnerP1.setVisibility(View.INVISIBLE);
-                else
-                    winnerP2.setVisibility(View.INVISIBLE);
+//                if (scoreP1 > scoreP2)
+//                winnerP1.setVisibility(View.INVISIBLE);
+//                else
+//                    winnerP2.setVisibility(View.INVISIBLE);
                 playAgainButton.setVisibility(View.VISIBLE);
-
+                showView(playAgainButton);
             }
-        }, 2000);
+        }, 8000);
 
     }
 
@@ -745,6 +800,8 @@ public class GameActivity extends AppCompatActivity {
         //to be executed by playAgainButton
         showView(timeCountDownP1);
         showView(timeCountDownP2);
+        hideView(winnerP1);
+        hideView(winnerP2);
         count_the_question = 0;
 //reset the 2 players score
         scoreP1 = 0;

@@ -8,7 +8,16 @@
     <string name="newhscore">שברת שיא חדש</string>
     <string name="best_players">טבלת שיאים</string>
     <string name="round">סבב</string>
-    <string name="timer">סטופר</string>
+    <string name="timer">זמן</string>
     <string name="score">ניקוד</string>
     <string name="play_again">שחק שנית!</string>
+    <string name="game_over">המשחק נגמר</string>
+    <string name="save">שמירה</string>
+    <string name="back">חזרה</string>
+    <string name="button">כפתור</string>
+    <string name="questiondes">שאלה</string>
+    <string name="top_players">שחקנים מובילים</string>
+    <string name="oneplayer">יחיד</string>
+    <string name="twoplayer">זוגי</string>
+    <string name="home">מסך בית</string>
 </resources>

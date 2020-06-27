@@ -34,8 +34,8 @@
             android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="0"
-            android:text="Button"
-            android:textSize="22sp"
+            android:text="@string/button"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <Button
@@ -48,8 +48,8 @@
             android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="1"
-            android:text="Button"
-            android:textSize="22sp"
+            android:text="@string/button"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -62,8 +62,8 @@
             android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="2"
-            android:text="Button"
-            android:textSize="22sp"
+            android:text="@string/button"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -76,9 +76,9 @@
             android:backgroundTint="@color/col1"
             android:onClick="checkAnswerP1"
             android:tag="3"
-            android:text="Button"
+            android:text="@string/button"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -94,7 +94,7 @@
         android:layout_height="60dp"
         android:layout_below="@id/space1"
         android:background="@drawable/bgbuttons"
-        android:text="1 + 1"
+        android:text="@string/questiondes"
         android:textAlignment="center"
         android:gravity="center"
         android:layout_centerHorizontal="true"
@@ -129,6 +129,7 @@
             android:textColor="#9C27B0"
             android:textSize="36sp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/bgbuttons"/>
 
         <TextView
@@ -136,11 +137,10 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:text="1/20"
+            android:background="@android:color/holo_purple"            android:text="1/50"
             android:rotation="-180"
             android:gravity="center"
-            android:textColor="#9C27B0"
+            android:textColor="@color/white"
             android:textSize="36sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"/>
@@ -155,38 +155,50 @@
             android:gravity="center"
             android:textColor="#9C27B0"
             android:textSize="36sp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/bgbuttons"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
         android:layout_below="@id/layout_p1"
         android:id="@+id/labelsP1"
-        android:orientation="horizontal"
-        android:rotation="-180">
+        android:rotation="-180"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:weightSum="3"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             android:text="@string/timer"/>
-
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             android:text="@string/round"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textStyle="bold"
-            android:text="@string/score"
-            android:layout_marginLeft="95dp"/>
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/score"/>
 
     </LinearLayout>
 
@@ -211,7 +223,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:layout_marginTop="5dp"
         android:layout_below="@id/labelsP1"
         android:id="@+id/space3"/>
@@ -227,6 +239,7 @@
         android:layout_below="@id/space3"
         android:layout_marginLeft="35dp"
         android:layout_marginRight="35dp"
+        android:layout_marginTop="10dp"
         android:background="@android:color/transparent"
         android:text="Round1"
         android:textStyle="bold"
@@ -237,13 +250,13 @@
 
     <Button
         android:id="@+id/imgBtnPlayAgain"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/space3"
         android:onClick="playAgain"
-        android:text="Play Again!"
-        android:textStyle="italic"
+        android:text="@string/play_again"
+        android:textStyle="italic|bold"
         android:backgroundTint="@color/blue"
         android:textSize="36sp"
         android:src="@drawable/play_btn"
@@ -256,36 +269,74 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="25dp"
         android:layout_below="@id/tieQP1"
         android:id="@+id/space4"/>
 
     <LinearLayout
+        android:id="@+id/labelsP2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/space4"
-        android:layout_marginLeft="48dp"
-        android:layout_marginRight="30dp"
-        android:id="@+id/labelsP2"
+        android:layout_marginTop="10dp"
+
+        android:weightSum="3"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             android:text="@string/timer"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             android:text="@string/round"/>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="90dp"
+            android:layout_weight="1"
             android:textStyle="bold"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/black"
             android:text="@string/score"/>
     </LinearLayout>
+
+
+    <!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="48dp"-->
+<!--        android:layout_marginRight="30dp"-->
+<!--        android:id="@+id/labelsP2"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="@string/timer"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="90dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="@string/round"/>-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="90dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:text="@string/score"/>-->
+<!--    </LinearLayout>-->
 
 
     <LinearLayout
@@ -301,6 +352,7 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="45"
@@ -313,10 +365,9 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@color/white"
-            android:text="1/20"
+            android:background="@android:color/holo_purple"            android:text="1/50"
             android:gravity="center"
-            android:textColor="#9C27B0"
+            android:textColor="@color/white"
             android:textSize="36sp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"/>
@@ -325,6 +376,7 @@
             android:id="@+id/scoreP2"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:gravity="center"
@@ -347,7 +399,7 @@
         android:layout_below="@id/space5"
         android:layout_centerHorizontal="true"
         android:background="@drawable/bgbuttons"
-        android:text="1 + 1"
+        android:text="@string/questiondes"
         android:textAlignment="center"
         android:textColor="#9C27B0"
         android:textSize="36sp"/>
@@ -379,8 +431,8 @@
             android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="0"
-            android:text="Button"
-            android:textSize="22sp"
+            android:text="@string/button"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -393,8 +445,8 @@
             android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="1"
-            android:text="Button"
-            android:textSize="22sp"
+            android:text="@string/button"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -407,8 +459,8 @@
             android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="2"
-            android:text="Button"
-            android:textSize="22sp"
+            android:text="@string/button"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <Button
@@ -421,9 +473,9 @@
             android:backgroundTint="@color/blue"
             android:onClick="checkAnswerP2"
             android:tag="3"
-            android:text="Button"
+            android:text="@string/button"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
     </LinearLayout>
 

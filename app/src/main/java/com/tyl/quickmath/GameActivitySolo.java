@@ -12,7 +12,6 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.tyl.quickmath.fragments.FragmentViewPagerActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class GameActivitySolo extends AppCompatActivity {
     GlobalClass global;
     MediaPlayer mediaPlayer;
     TextView timeCountDownP1;
-    TextView scoreTextP1, tieTVP1;
+    TextView scoreTextP1;
     TextView questionTextP1;
     TextView questionCounterP1;
     androidx.gridlayout.widget.GridLayout  answerLayoutP1;
@@ -52,21 +52,18 @@ public class GameActivitySolo extends AppCompatActivity {
     GifTextView gifImageView;
     CountDownTimer countDown;
     boolean isActive;
-    int answerIndex, minOfTop5;
-    int count_the_question, count_tie_question;
+    int answerIndex, minOfTop10;
+    int count_the_question;
     String gameLvl;
-    boolean isHard, tieScore;
+    String appLanguage;
+    boolean isEasy,isMed,isHard;
     ArrayList<Integer> questionArray;
     ImageButton backDialog;
-
-    AnswerArrays numArrays, medArrays, hardArrays;
-    //ArrayList<Integer> answerArrayLow;
+    AnswerArrays numArrays, medArrays;
     private int scoreP1 = 0;
     SharedPreferences sharedPreferences;
     private boolean new_high_score;
     private List<Person> scoresArray;
-    private int maxScore;
-    final Handler hndlr = new Handler();
     LottieAnimationView winAnim;
     View dialView;
     @Override
@@ -78,7 +75,7 @@ public class GameActivitySolo extends AppCompatActivity {
         gameLvl = game_level;
         sharedPreferences = this.getSharedPreferences("sound", this.MODE_PRIVATE);
         global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
-
+        appLanguage = Locale.getDefault().getLanguage();
         timeCountDownP1 = findViewById(R.id.timeCountDownP1);
         questionTextP1 = findViewById(R.id.questionTextP1);
         timerLayoutP1 = findViewById(R.id.layout_p1);
@@ -94,6 +91,8 @@ public class GameActivitySolo extends AppCompatActivity {
 
         playAgainButton = findViewById(R.id.imgBtnPlayAgain);
         scoreTextP1 = findViewById(R.id.scoreP1);
+        isEasy = gameLvl.equals("easyP1");
+        isMed = gameLvl.equals("mediumP1");
         isHard = gameLvl.equals("hardP1");
         setArrayValues(game_level);
         scoresArray = new ArrayList<>();
@@ -141,7 +140,7 @@ public class GameActivitySolo extends AppCompatActivity {
                 hideView(gifImageView);
                 showViewsForAnim();
                 startTimer();
-                getNextQuestionAnswer();
+                nextQuestion();
             }
         }, 5000);
 
@@ -169,6 +168,17 @@ public class GameActivitySolo extends AppCompatActivity {
         hideView(timerLayoutP1);
         hideView(labelsP1);
         playAgainButton.setVisibility(View.INVISIBLE);
+
+        if(isEasy)
+            minOfTop10 = sharedPreferences.getInt("e_score10",0);
+        else if(isMed)
+            minOfTop10 = sharedPreferences.getInt("m_score10",0);
+        else
+            minOfTop10 = sharedPreferences.getInt("h_score10",0);
+
+        if (scoreP1 > minOfTop10)
+            new_high_score = true;
+
         if (new_high_score) {
             winAnim.setVisibility(View.VISIBLE);
             showView(winAnim);
@@ -178,10 +188,9 @@ public class GameActivitySolo extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                        winAnim.setVisibility(View.INVISIBLE);
                         playAgainButton.setVisibility(View.VISIBLE);
                 }
-            }, 3000);
+            }, 8000);
 
         }
 
@@ -191,22 +200,26 @@ public void checkAnswerP1(View view) {
     if (view.getTag().toString().equals(Integer.toString(answerIndex))) {
         scoreP1++;
         scoreTextP1.setText(Integer.toString(scoreP1));
-
         final Handler handler = new Handler();
         handler.postDelayed(() -> {
             //loading next question after 20ms
-            getNextQuestionAnswer();
+            nextQuestion();
             enableBtns();
         }, 20);
     }
     else{
+        if(scoreP1>0){
+            scoreP1--;
+            scoreTextP1.setText(Integer.toString(scoreP1));
+
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivitySolo.this,R.style.WrongDialog);
         dialView = getLayoutInflater().inflate(R.layout.wrong_ans_dialog, null);
         builder.setView(dialView).setCancelable(false);
         ImageView imageView = dialView.findViewById(R.id.wap);
         imageView.setImageResource(R.drawable.wrong_png_3);
         final AlertDialog dialog = builder.show();
-        new CountDownTimer(1000, 1000) {
+        new CountDownTimer(500, 500) {
             @Override
             public void onTick(long millisUntilFinished) {
             }
@@ -228,6 +241,7 @@ public void checkAnswerP1(View view) {
     public void playAgain(View view) {
         //to be executed by playAgainButton
         showView(timeCountDownP1);
+        hideView(winAnim);
         count_the_question = 0;
          //reset the player score
         scoreP1 = 0;
@@ -242,13 +256,13 @@ public void checkAnswerP1(View view) {
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easyP1":
-                millisInFuture = 25000;
+                millisInFuture = 5000;
                 break;
             case "mediumP1":
-                millisInFuture = 30000;
+                millisInFuture = 40000;
                 break;
             case "hardP1":
-                millisInFuture = 35000;
+                millisInFuture = 50000;
                 break;
         }
         countDown = new CountDownTimer(millisInFuture, 1000) {
@@ -260,14 +274,25 @@ public void checkAnswerP1(View view) {
 
             @Override
             public void onFinish() {
-
+                winnerAnim();
                 final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        newHighScoreCheck();
-                    }
-                }, 0);
+
+                if(new_high_score){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            newHighScoreCheck();
+                        }
+                    }, 2000);
+                }
+                else{
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            newHighScoreCheck();
+                        }
+                    }, 300);
+                }
 
                 //Show playAgain button
                 showView(playAgainButton);
@@ -279,14 +304,7 @@ public void checkAnswerP1(View view) {
     }
     private void newHighScoreCheck () {
 
-        minOfTop5 = sharedPreferences.getInt("highscore5", 0);
-
-        if (scoreP1 > minOfTop5)
-            new_high_score = true;
-
         if (new_high_score) {
-
-            winnerAnim();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -299,10 +317,10 @@ public void checkAnswerP1(View view) {
                     final EditText userEt = dialogview.findViewById(R.id.username);
                     final AlertDialog dialog = builder.create();
                     dialog.show();
-                    final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
+//                    final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
 
 
-                    ImageButton returnBtn = dialogview.findViewById(R.id.return_to_game);
+                    Button returnBtn = dialogview.findViewById(R.id.return_to_game);
                     final Intent top_intent = new Intent(GameActivitySolo.this, TopTableActivity.class);
                     top_intent.putExtra("level", gameLvl);
 
@@ -316,18 +334,31 @@ public void checkAnswerP1(View view) {
                             scoreP1 = 0;
                             new_high_score = false;
                             dialog.dismiss();
-                            startActivity(top_intent);
+//                            startActivity(top_intent);
+                            Intent i = new Intent(GameActivitySolo.this, FragmentViewPagerActivity.class);
+                            if(isEasy){
+                                i.putExtra("frgToLoad",0);
+                            }
+                            else if(isMed)
+                                i.putExtra("frgToLoad", 1);
+                            else
+                                i.putExtra("frgToLoad", 2);
+
+                            i.putExtra("fromMain",false);
+                            startActivity(i);
+
                         }
                     });
 
                 }
-            }, 2800);
+            }, 0);
         } else //game over,do nothing
         {
             hideView(answerLayoutP1);
             hideView(questionTextP1);
             hideView(timerLayoutP1);
             hideView(labelsP1);
+            playAgainButton.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -339,27 +370,76 @@ public void checkAnswerP1(View view) {
         Collections.sort(scoresArray);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("highscore1", scoresArray.get(0).getScore());
-        editor.putInt("highscore2", scoresArray.get(1).getScore());
-        editor.putInt("highscore3", scoresArray.get(2).getScore());
-        editor.putInt("highscore4", scoresArray.get(3).getScore());
-        editor.putInt("highscore5", scoresArray.get(4).getScore());
-        editor.putInt("highscore6", scoresArray.get(5).getScore());
-        editor.putInt("highscore7", scoresArray.get(6).getScore());
-        editor.putInt("highscore8", scoresArray.get(7).getScore());
-        editor.putInt("highscore9", scoresArray.get(8).getScore());
-        editor.putInt("highscore10", scoresArray.get(9).getScore());
+        if(isEasy){
+            editor.putInt("e_score1",scoresArray.get(0).getScore());
+            editor.putInt("e_score2",scoresArray.get(1).getScore());
+            editor.putInt("e_score3",scoresArray.get(2).getScore());
+            editor.putInt("e_score4",scoresArray.get(3).getScore());
+            editor.putInt("e_score5",scoresArray.get(4).getScore());
+            editor.putInt("e_score6",scoresArray.get(5).getScore());
+            editor.putInt("e_score7",scoresArray.get(6).getScore());
+            editor.putInt("e_score8",scoresArray.get(7).getScore());
+            editor.putInt("e_score9",scoresArray.get(8).getScore());
+            editor.putInt("e_score10",scoresArray.get(9).getScore());
 
-        editor.putString("score1_name", scoresArray.get(0).getName());
-        editor.putString("score2_name", scoresArray.get(1).getName());
-        editor.putString("score3_name", scoresArray.get(2).getName());
-        editor.putString("score4_name", scoresArray.get(3).getName());
-        editor.putString("score5_name", scoresArray.get(4).getName());
-        editor.putString("score6_name", scoresArray.get(5).getName());
-        editor.putString("score7_name", scoresArray.get(6).getName());
-        editor.putString("score8_name", scoresArray.get(7).getName());
-        editor.putString("score9_name", scoresArray.get(8).getName());
-        editor.putString("score10_name", scoresArray.get(9).getName());
+            editor.putString("e_score1_name",scoresArray.get(0).getName());
+            editor.putString("e_score2_name",scoresArray.get(1).getName());
+            editor.putString("e_score3_name",scoresArray.get(2).getName());
+            editor.putString("e_score4_name",scoresArray.get(3).getName());
+            editor.putString("e_score5_name",scoresArray.get(4).getName());
+            editor.putString("e_score6_name",scoresArray.get(5).getName());
+            editor.putString("e_score7_name",scoresArray.get(6).getName());
+            editor.putString("e_score8_name",scoresArray.get(7).getName());
+            editor.putString("e_score9_name",scoresArray.get(8).getName());
+            editor.putString("e_score10_name",scoresArray.get(9).getName());
+        }
+        else if(isMed){
+            editor.putInt("m_score1",scoresArray.get(0).getScore());
+            editor.putInt("m_score2",scoresArray.get(1).getScore());
+            editor.putInt("m_score3",scoresArray.get(2).getScore());
+            editor.putInt("m_score4",scoresArray.get(3).getScore());
+            editor.putInt("m_score5",scoresArray.get(4).getScore());
+            editor.putInt("m_score6",scoresArray.get(5).getScore());
+            editor.putInt("m_score7",scoresArray.get(6).getScore());
+            editor.putInt("m_score8",scoresArray.get(7).getScore());
+            editor.putInt("m_score9",scoresArray.get(8).getScore());
+            editor.putInt("m_score10",scoresArray.get(9).getScore());
+
+            editor.putString("m_score1_name",scoresArray.get(0).getName());
+            editor.putString("m_score2_name",scoresArray.get(1).getName());
+            editor.putString("m_score3_name",scoresArray.get(2).getName());
+            editor.putString("m_score4_name",scoresArray.get(3).getName());
+            editor.putString("m_score5_name",scoresArray.get(4).getName());
+            editor.putString("m_score6_name",scoresArray.get(5).getName());
+            editor.putString("m_score7_name",scoresArray.get(6).getName());
+            editor.putString("m_score8_name",scoresArray.get(7).getName());
+            editor.putString("m_score9_name",scoresArray.get(8).getName());
+            editor.putString("m_score10_name",scoresArray.get(9).getName());
+        }
+        else{
+            editor.putInt("h_score1",scoresArray.get(0).getScore());
+            editor.putInt("h_score2",scoresArray.get(1).getScore());
+            editor.putInt("h_score3",scoresArray.get(2).getScore());
+            editor.putInt("h_score4",scoresArray.get(3).getScore());
+            editor.putInt("h_score5",scoresArray.get(4).getScore());
+            editor.putInt("h_score6",scoresArray.get(5).getScore());
+            editor.putInt("h_score7",scoresArray.get(6).getScore());
+            editor.putInt("h_score8",scoresArray.get(7).getScore());
+            editor.putInt("h_score9",scoresArray.get(8).getScore());
+            editor.putInt("h_score10",scoresArray.get(9).getScore());
+
+            editor.putString("h_score1_name",scoresArray.get(0).getName());
+            editor.putString("h_score2_name",scoresArray.get(1).getName());
+            editor.putString("h_score3_name",scoresArray.get(2).getName());
+            editor.putString("h_score4_name",scoresArray.get(3).getName());
+            editor.putString("h_score5_name",scoresArray.get(4).getName());
+            editor.putString("h_score6_name",scoresArray.get(5).getName());
+            editor.putString("h_score7_name",scoresArray.get(6).getName());
+            editor.putString("h_score8_name",scoresArray.get(7).getName());
+            editor.putString("h_score9_name",scoresArray.get(8).getName());
+            editor.putString("h_score10_name",scoresArray.get(9).getName());
+        }
+
         editor.commit();
     }
 
@@ -435,22 +515,54 @@ public void checkAnswerP1(View view) {
     }
 
     private void initScoresTable () {
-        minOfTop5 = sharedPreferences.getInt("highscore10", 0);
-        scoresArray.add(0, new Person(sharedPreferences.getString("score1_name", "Player"), sharedPreferences.getInt("highscore1", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score2_name", "Player"), sharedPreferences.getInt("highscore2", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score3_name", "Player"), sharedPreferences.getInt("highscore3", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score4_name", "Player"), sharedPreferences.getInt("highscore4", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score5_name", "Player"), sharedPreferences.getInt("highscore5", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score6_name", "Player"), sharedPreferences.getInt("highscore6", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score7_name", "Player"), sharedPreferences.getInt("highscore7", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score8_name", "Player"), sharedPreferences.getInt("highscore8", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score9_name", "Player"), sharedPreferences.getInt("highscore9", 0)));
-        scoresArray.add(new Person(sharedPreferences.getString("score10_name", "Player"), sharedPreferences.getInt("highscore10", 0)));
+        if(isEasy){
+            minOfTop10 = sharedPreferences.getInt("e_score10", 0);
+            scoresArray.add(0, new Person(sharedPreferences.getString("e_score1_name", "Player"), sharedPreferences.getInt("e_score1", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score2_name", "Player"), sharedPreferences.getInt("e_score2", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score3_name", "Player"), sharedPreferences.getInt("e_score3", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score4_name", "Player"), sharedPreferences.getInt("e_score4", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score5_name", "Player"), sharedPreferences.getInt("e_score5", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score6_name", "Player"), sharedPreferences.getInt("e_score6", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score7_name", "Player"), sharedPreferences.getInt("e_score7", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score8_name", "Player"), sharedPreferences.getInt("e_score8", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score9_name", "Player"), sharedPreferences.getInt("e_score9", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("e_score10_name", "Player"), sharedPreferences.getInt("e_score10", 0)));
+
+        }
+        else if(isMed){
+            minOfTop10 = sharedPreferences.getInt("m_score10", 0);
+            scoresArray.add(0, new Person(sharedPreferences.getString("m_score1_name", "Player"), sharedPreferences.getInt("m_score1", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score2_name", "Player"), sharedPreferences.getInt("m_score2", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score3_name", "Player"), sharedPreferences.getInt("m_score3", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score4_name", "Player"), sharedPreferences.getInt("m_score4", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score5_name", "Player"), sharedPreferences.getInt("m_score5", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score6_name", "Player"), sharedPreferences.getInt("m_score6", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score7_name", "Player"), sharedPreferences.getInt("m_score7", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score8_name", "Player"), sharedPreferences.getInt("m_score8", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score9_name", "Player"), sharedPreferences.getInt("m_score9", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("m_score10_name", "Player"), sharedPreferences.getInt("m_score10", 0)));
+
+        }
+        else{
+            minOfTop10 = sharedPreferences.getInt("h_score10", 0);
+            scoresArray.add(0, new Person(sharedPreferences.getString("h_score1_name", "Player"), sharedPreferences.getInt("h_score1", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score2_name", "Player"), sharedPreferences.getInt("h_score2", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score3_name", "Player"), sharedPreferences.getInt("h_score3", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score4_name", "Player"), sharedPreferences.getInt("h_score4", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score5_name", "Player"), sharedPreferences.getInt("h_score5", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score6_name", "Player"), sharedPreferences.getInt("h_score6", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score7_name", "Player"), sharedPreferences.getInt("h_score7", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score8_name", "Player"), sharedPreferences.getInt("h_score8", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score9_name", "Player"), sharedPreferences.getInt("h_score9", 0)));
+            scoresArray.add(new Person(sharedPreferences.getString("h_score10_name", "Player"), sharedPreferences.getInt("h_score10", 0)));
+        }
+
+
     }
 
 
-    private void getNextQuestionAnswer () {
-        if (count_the_question > 30) {
+    private void nextQuestion() {
+        if (count_the_question > 50) {
             endGame();
         }
         else {
@@ -585,13 +697,13 @@ public void checkAnswerP1(View view) {
             }
 
             //Set qn text
-            questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
+            if (appLanguage.equals("en"))
+                questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
+            else
+                questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", secondQnInt, operation,firstQnInt ));
 
-            if (tieScore) {
-                tieTVP1.setText(String.format(Locale.ENGLISH, "Round%d", count_tie_question + 1));
-            }
             //Set qn counter
-            String qnCounterTxt = String.format(Locale.ENGLISH, "%d/20", count_the_question);
+            String qnCounterTxt = String.format(Locale.ENGLISH, "%d/50", count_the_question);
             questionCounterP1.setText(qnCounterTxt);
             count_the_question++;
         }

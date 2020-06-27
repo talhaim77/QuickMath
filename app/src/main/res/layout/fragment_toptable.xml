@@ -14,10 +14,10 @@
         android:layout_gravity="center"
         android:layout_centerHorizontal="true"
         android:padding="8dp"
-        android:textColor="#009688"
+        android:textColor="@color/col4"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:text="TOP PLAYERS" />
+        android:text="@string/top_players" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -35,28 +35,32 @@
         android:orientation="vertical"
         android:layout_weight="2"
         android:weightSum="2"
-        android:gravity="right">
+        android:gravity="center"
+        android:layout_marginRight="10dp">
+
         <Button
             android:id="@+id/top_table_back"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:textSize="20sp"
-            android:text="BACK"
+            android:textSize="28sp"
+            android:text="@string/back"
             android:scaleType="centerInside"
-            android:background="@drawable/button_shape"/>
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/col4" />
         <Button
             android:id="@+id/top_table_backtomenu"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:textSize="20sp"
-            android:text="HOME"
+            android:layout_marginBottom="10dp"
+            android:textSize="28sp"
+            android:text="@string/home"
             android:scaleType="centerInside"
-            android:background="@drawable/button_shape"/>
+            android:background="@drawable/button_shape"
+            android:backgroundTint="@color/col4"/>
 
 
 

@@ -22,9 +22,9 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="Game Over"
+            android:text="@string/game_over"
             android:textColor="#D6000000"
-            android:textSize="60sp"
+            android:textSize="40sp"
             android:textStyle="bold" />
         <TextView
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:id="@+id/return_to_menu"
                 android:src="@drawable/ic_arrow_back_black_24dp"
                 android:textSize="30sp"
-                android:text="BACK"
+                android:text="@string/back"
                 android:background="#00000000"/>
 
             <androidx.appcompat.widget.AppCompatButton
@@ -81,7 +81,7 @@
                 android:layout_weight="1"
                 android:id="@+id/return_to_game"
                 android:textSize="30sp"
-                android:text="SAVE"
+                android:text="@string/save"
                 android:background="#00000000"/>
 
         </LinearLayout>
