@@ -1,35 +1,48 @@
 package com.tyl.quickmath.fragments;
 
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.tyl.quickmath.GlobalClass;
 import com.tyl.quickmath.R;
 import com.tyl.quickmath.databinding.ActivityFragmentViewPagerBinding;
+
+import java.util.Locale;
 
 public class FragmentViewPagerActivity extends AppCompatActivity {
 
     ActivityFragmentViewPagerBinding binding;
+    GlobalClass global;
+    SharedPreferences sharedPreferences;
+    MediaPlayer mediaPlayer;
+    String appLanguage;
 
     // tab titles
+    private String[] titleHe = new String[]{"קל", "בינוני", "קשה"};
+    private String[] titleEn = new String[] {"Easy",  "Medium", "Hard"};
 
-    private String[] titles = new String[]{"Easy", "Medium", "Hard"};
-//    String a = getResources().getString(R.string.easy) ;
-//    String b = getResources().getString(R.string.medium);
-//    String c = getResources().getString(R.string.hard);
-//    private String[] titles = new String[]{a,b,c};
 
     int intentFragment;
     boolean fromMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        appLanguage = Locale.getDefault().getLanguage();
         fromMain = getIntent().getExtras().getBoolean("fromMain");
         binding = ActivityFragmentViewPagerBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        global = GlobalClass.getInstance();
+        global.initializeMediaPlayer(this);
+        sharedPreferences = this.getSharedPreferences("sound",this.MODE_PRIVATE);
+        global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
         intentFragment = getIntent().getExtras().getInt("frgToLoad");
         init();
 
@@ -42,8 +55,14 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
         binding.viewPager.setAdapter(new ViewPagerFragmentAdapter(this));
         binding.viewPager.setCurrentItem(intentFragment);
         // attaching tab mediator
-        new TabLayoutMediator(binding.tabLayout, binding.viewPager,
-                (tab, position) -> tab.setText(titles[position])).attach();
+        if (appLanguage.equals("en")){
+            new TabLayoutMediator(binding.tabLayout, binding.viewPager,
+                    (tab, position) -> tab.setText(titleEn[position])).attach();
+        }
+        else{
+            new TabLayoutMediator(binding.tabLayout, binding.viewPager,
+                    (tab, position) -> tab.setText(titleHe[position])).attach();
+        }
     }
 
     private class ViewPagerFragmentAdapter extends FragmentStateAdapter {
@@ -68,7 +87,30 @@ public class FragmentViewPagerActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return titles.length;
+            if (appLanguage.equals("en")){
+                return titleEn.length;
+            }
+            else{
+                return titleHe.length;
+            }
         }
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("onResume","in");
+        global.playSound(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+        global.pauseSong();
     }
 }

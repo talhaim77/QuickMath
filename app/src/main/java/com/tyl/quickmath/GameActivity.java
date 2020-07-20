@@ -8,15 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -24,11 +21,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.tyl.quickmath.databinding.ActivityGame2Binding;
-import com.tyl.quickmath.fragments.EasyFragment;
 import com.tyl.quickmath.fragments.FragmentViewPagerActivity;
-import com.tyl.quickmath.fragments.HardFragment;
-import com.tyl.quickmath.fragments.MediumFragment;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -40,37 +33,34 @@ import java.util.Random;
 
 import pl.droidsonroids.gif.GifTextView;
 
-////
+
 
 public class GameActivity extends AppCompatActivity {
     LottieAnimationView winnerP1,winnerP2;
+    GifTextView gifImageView;
     GlobalClass global;
     MediaPlayer mediaPlayer;
+    CountDownTimer countDown;
     TextView timeCountDownP1,timeCountDownP2;
     TextView scoreTextP1,scoreTextP2,tieTVP1;
-    TextView questionTextP1,questionTextP2,questionTextP3;
+    TextView questionTextP1,questionTextP2;
     TextView questionCounterP1,questionCounterP2;
     LinearLayout answerLayoutP1,answerLayoutP2,timerLayoutP1,timerLayoutP2, labelsP1, labelsP2;
     Button playAgainButton;
-    GifTextView gifImageView;
-    CountDownTimer countDown;
-    boolean isActive;
-    String appLanguage;
-    int answerIndex, minOfTop10;
-    int count_the_question,count_tie_question;
-    String gameLvl;
-    boolean isEasy,isMed,isHard,tieScore;
-    ArrayList<Integer> questionArray;
-    Button backDialog;
-    ActivityGame2Binding binding;
-    AnswerArrays numArrays,medArrays,hardArrays;
-    //ArrayList<Integer> answerArrayLow;
+    private String appLanguage;
+    private String gameLvl;
+    private int answerIndex, minOfTop10;
+    private int count_the_question,count_tie_question;
+    private int maxScore;
     private int scoreP2=0;
     private int scoreP1=0;
-    SharedPreferences sharedPreferences;
+    private boolean isEasy,isMed,isHard,tieScore;
     private boolean new_high_score;
+    private boolean notSaveScore;
+    ArrayList<Integer> questionArray;
+    AnswerArrays numArrays;
+    SharedPreferences sharedPreferences;
     private List<Person> scoresArray;
-    private int maxScore;
     final Handler hndlr = new Handler();
 
     @Override
@@ -92,14 +82,13 @@ public class GameActivity extends AppCompatActivity {
 
         questionCounterP1 = findViewById(R.id.questionCounterP1);
         questionCounterP2=findViewById(R.id.questionCounterP2);
-        answerLayoutP1 = findViewById(R.id.answersButtons);
+        answerLayoutP1 = findViewById(R.id.answersButtonsP1);
         answerLayoutP2 = findViewById(R.id.answersButtonsP2);
 
         tieTVP1 = findViewById(R.id.tieQP1);
         labelsP1 = findViewById(R.id.labelsP1);
         labelsP2 = findViewById(R.id.labelsP2);
 
-        backDialog = findViewById(R.id.return_to_menu);
         gifImageView = findViewById(R.id.start_gif);
         winnerP1 = findViewById(R.id.win);
         winnerP2 = findViewById(R.id.win2);
@@ -109,9 +98,12 @@ public class GameActivity extends AppCompatActivity {
         isEasy = gameLvl.equals("easyP2");
         isMed = gameLvl.equals("mediumP2");
         isHard = gameLvl.equals("hardP2");
+        //set values in question arrays by levels:easy,med,hard
         setArrayValues(game_level);
         scoresArray = new ArrayList<>();
+        //this function insert 10 best users as person object to scoresArray.
         initScoresTable();
+        //init the AnswerArrays (A class that contains arrays for the random wrong answers)
         initArraysLvl();
         startGame();
     }
@@ -120,9 +112,7 @@ public class GameActivity extends AppCompatActivity {
     private void initArraysLvl() {
         //init arrays of the easy level
           numArrays = new AnswerArrays();
-
         //init arrays of the medium level
-          medArrays = new AnswerArrays();
 
     }
 
@@ -272,7 +262,6 @@ public class GameActivity extends AppCompatActivity {
                 dialog.show();
 
                 Button returnBtn = dialogview.findViewById(R.id.return_to_game);
-
                 returnBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -281,6 +270,11 @@ public class GameActivity extends AppCompatActivity {
                         updateHighScore();
                         maxScore = 0;
                         new_high_score = false;
+                        hndlr.postDelayed(() -> {
+                            playAgainButton.setVisibility(View.VISIBLE);
+                            showView(playAgainButton);
+                        }, 2000);
+
                         dialog.dismiss();
                         //try to open specific-fragment
                         Intent i = new Intent(GameActivity.this, FragmentViewPagerActivity.class);
@@ -299,15 +293,45 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
 
-            }, 0);
+                Button backBtn = dialogview.findViewById(R.id.play_without_save);
+                backBtn.setOnClickListener(v -> {
+                    dialog.dismiss();
+                    playWithOutSave();
+                });
+
+            }, 2000);
         }
         else //game over,do nothing
         {
-            playAgainButton.setVisibility(View.VISIBLE);
+            if(!notSaveScore){
+                hndlr.postDelayed(() -> {
+                    playAgainButton.setVisibility(View.VISIBLE);
+                    showView(playAgainButton);
+                }, 2500);
+
+            }
+
             return;
         }
 
+    }
 
+    private void playWithOutSave() {
+        notSaveScore = true;
+        playAgainButton.setVisibility(View.INVISIBLE);
+        //to be executed by playAgainButton
+        showView(timeCountDownP1);
+        showView(timeCountDownP2);
+        hideView(winnerP1);
+        hideView(winnerP2);
+        count_the_question = 0;
+//reset the 2 players score
+        scoreP1 = 0;
+        scoreP2 = 0;
+        scoreTextP1.setText(Integer.toString(scoreP1));
+        scoreTextP2.setText(Integer.toString(scoreP2));
+        enableBtns();
+        startGame();
     }
 
     private void initScoresTable() {
@@ -360,9 +384,6 @@ public class GameActivity extends AppCompatActivity {
         //Hide useless buttons
         hideView(playAgainButton);
 
-
-//        showView(labelsP1);
-//        showView(labelsP2);
         if(!tieScore) {
             //3,2,1 -->go
             hideViewsForAnim();
@@ -372,7 +393,7 @@ public class GameActivity extends AppCompatActivity {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    isActive = true; //set game state to active
+                    gifImageView.setVisibility(View.GONE);
                     hideView(gifImageView);
                     showViewsForAnim();
                     startTimer();
@@ -462,19 +483,17 @@ public class GameActivity extends AppCompatActivity {
             hideView(tieTVP1);
             newHighScoreCheck();
             showView(playAgainButton);
-            //Set gamestate to inactive
-            isActive = false;
+            playAgainButton.setVisibility(View.VISIBLE);
+
             winnerAnim();
         }
         else {
             Random random = new Random();
-            // 0 is addition, 1 is subtraction, 2 is multiplication and 3 is divide
             answerIndex = random.nextInt(4); // index of correct option
             int firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
             int secondQnInt = questionArray.get(random.nextInt(questionArray.size()));
             if(isHard&&(firstQnInt == secondQnInt))
             {
-                Log.d("isHard","first==second");
                 do
                     firstQnInt = questionArray.get(random.nextInt(questionArray.size()));
                 while(firstQnInt == secondQnInt);
@@ -483,8 +502,10 @@ public class GameActivity extends AppCompatActivity {
             int answer = 0;
             double hardAnswer = 0;
             int questionType = 0;
-            if(gameLvl.equals("easyP2")){
-                questionType = random.nextInt(2); // get question type
+            if(isEasy){
+                questionType = random.nextInt(2);
+                // get question type
+                // 0 is addition, 1 is subtraction, 2 is multiplication and 3 is divide
                 switch(questionType) {
                     case 0:
                         //addition
@@ -502,7 +523,7 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
 
-            else if(gameLvl.equals("mediumP2")){
+            else if(isMed){
                 questionType = random.nextInt(3); // get question type
                 switch(questionType) {
                     case 0:
@@ -553,6 +574,7 @@ public class GameActivity extends AppCompatActivity {
             else{
                     numArrays.RandomNumbers = r.ints(8, answer+1,answer+8).toArray();
             }
+            //change duplicated numbers in the random array
             uniqueArrays();
             if(isHard){
                 for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
@@ -567,7 +589,6 @@ public class GameActivity extends AppCompatActivity {
 
                     if (childButtonP1.getTag().toString().equals(Integer.toString(answerIndex))) {
                         if(questionType == 0) { // is '*'
-                           // hardAnswer =(double) answer;
                             childButtonP1.setText(String.valueOf(answer));
                         }
                         else // is '/'
@@ -630,12 +651,13 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
 
-            //Set qn text
+            //Set question text
             if (appLanguage.equals("en")){
                 questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
                 questionTextP2.setText(String.format(Locale.ENGLISH, "%d %s %d", firstQnInt, operation, secondQnInt));
             }
             else{
+                //set text for hebrew
                 questionTextP1.setText(String.format(Locale.ENGLISH, "%d %s %d", secondQnInt, operation,firstQnInt ));
                 questionTextP2.setText(String.format(Locale.ENGLISH, "%d %s %d", secondQnInt, operation, firstQnInt));
             }
@@ -664,11 +686,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        startGame();
-    }
 
     private void endGame() {
         countDown.cancel();
@@ -701,9 +718,7 @@ public class GameActivity extends AppCompatActivity {
                 //amend timeCountDown on every tick
                 timeCountDownP1.setText(String.valueOf(millisUntilFinished / 1000));
                 timeCountDownP2.setText(String.valueOf(millisUntilFinished / 1000));
-//                if (millisUntilFinished == 10000) {
-//
-//                }
+
             }
 
 
@@ -737,8 +752,6 @@ public class GameActivity extends AppCompatActivity {
                 }
 
 
-                    //Set gamestate to inactive
-                    isActive = false;
                 }
         }.start();
     }
@@ -777,12 +790,12 @@ public class GameActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                if (scoreP1 > scoreP2)
-//                winnerP1.setVisibility(View.INVISIBLE);
-//                else
-//                    winnerP2.setVisibility(View.INVISIBLE);
-                playAgainButton.setVisibility(View.VISIBLE);
-                showView(playAgainButton);
+                if (scoreP1 > scoreP2)
+                winnerP1.setVisibility(View.INVISIBLE);
+                else
+                    winnerP2.setVisibility(View.INVISIBLE);
+//                playAgainButton.setVisibility(View.VISIBLE);
+//                showView(playAgainButton);
             }
         }, 8000);
 
@@ -793,6 +806,12 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
             answerLayoutP1.getChildAt(i).setEnabled(false);
             answerLayoutP2.getChildAt(i).setEnabled(false);
+        }
+    }
+    private void enableBtns() {
+        for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
+            answerLayoutP1.getChildAt(i).setEnabled(true);
+            answerLayoutP2.getChildAt(i).setEnabled(true);
         }
     }
 
@@ -812,12 +831,6 @@ public class GameActivity extends AppCompatActivity {
         startGame();
     }
 
-    private void enableBtns() {
-        for (int i = 0; i < answerLayoutP1.getChildCount(); i++) {
-            answerLayoutP1.getChildAt(i).setEnabled(true);
-            answerLayoutP2.getChildAt(i).setEnabled(true);
-        }
-    }
 
     private void hideView(View view) {
         view.setEnabled(false);
@@ -830,6 +843,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void playGif(){
+        gifImageView.setVisibility(View.VISIBLE);
         Animation fadeout = new AlphaAnimation(1.f, 1.f);
         fadeout.setDuration(5000); // You can modify the duration here
         fadeout.setAnimationListener(new Animation.AnimationListener() {
@@ -847,6 +861,11 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         gifImageView.startAnimation(fadeout);
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        startGame();
     }
 
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3B0885</color>
+    <color name="colorAccent">#0DDEFF</color>
+    <color name="black">#000000</color>
+    <color name="blue">#03A9F4</color>
+    <color name="green">#7BED7F</color>
+    <color name="white">#FFF</color>
+    <color name="red">#F44336</color>
+
+    <color name="col1">#C366D3</color>
+    <color name="col2">#0058EF</color>
+    <color name="col3">#02AE41</color>
+    <color name="col4">#13788D</color>
+    <!--    microsoft -->
+    <color name="morange">#F25022</color>
+    <color name="mgreen">#7FBA00</color>
+    <color name="mblue">#00A4EF</color>
+    <color name="myellow">#FFB900</color>
+    <color name="mgrey">#737373</color>
+
+</resources>

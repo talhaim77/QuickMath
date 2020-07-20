@@ -48,7 +48,7 @@
             android:textSize="28sp"
             android:text="@string/back"
             android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/btn_shape"
             android:backgroundTint="@color/col4" />
         <Button
             android:id="@+id/top_table_backtomenu"
@@ -59,7 +59,7 @@
             android:textSize="28sp"
             android:text="@string/home"
             android:scaleType="centerInside"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/btn_shape"
             android:backgroundTint="@color/col4"/>
 
 

@@ -18,7 +18,6 @@
             android:name=".GameActivity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".TopTableActivity" />
         <activity
             android:name=".GameActivitySolo"
             android:launchMode="singleTask"

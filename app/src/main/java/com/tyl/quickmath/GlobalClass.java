@@ -10,7 +10,7 @@ public class GlobalClass extends Application {
 
     private static GlobalClass instance;
     public boolean Pause;
-    public boolean muteSound;
+    //public boolean muteSound;
     public boolean muteBackgroudMusic ;
     public MediaPlayer musicPlayer;
 
@@ -48,13 +48,6 @@ public class GlobalClass extends Application {
         }
     }
 
-    public boolean isMuteSound() {
-        return muteSound;
-    }
-
-    public void setMuteSound(boolean muteSound) {
-        this.muteSound = muteSound;
-    }
 
     public boolean isMusicPlayerMute() {
         return muteBackgroudMusic;
@@ -65,20 +58,12 @@ public class GlobalClass extends Application {
     }
 
     public void playSound(Context context) {
-        Log.d("playSound","global");
-
         if (isPause())
         {
             Log.d("playSound","isPause");
             return;
         }
         SharedPreferences sharedPreferences = context.getSharedPreferences("sound", this.MODE_PRIVATE);
-        setMuteSound(sharedPreferences.getBoolean("mute_tone", false));
-        if (isMuteSound())
-        {
-            Log.d("playSound","exit");
-            return;
-        }
         muteBackgroudMusic( sharedPreferences.getBoolean("mute_music",false) );
         if(isMusicPlayerMute()){
             Log.d("playSound","isMusicPlayerMute");
@@ -89,7 +74,6 @@ public class GlobalClass extends Application {
             Log.d("playSound","start");
             musicPlayer.start();
         }
-
 
     }
 }

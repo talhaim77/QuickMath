@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,11 +24,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     GlobalClass global;
     private ActivityMainBinding binding;
     SharedPreferences sharedPreferences;
-    Button sound,music;
+    Button music;
     Button easyLvlP1,easyLvlP2,
             medLvlP1,medLvlP2,
             hardLvlP1,hardLvlP2;
-//    Button topTable;
     ImageView logo_iv;
     LinearLayout sound_lt;
     Animation from_top,from_bottom,fade,btnAnim;
@@ -48,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         medLvlP2 = findViewById(R.id.twoPlayerMid);
         hardLvlP1 = findViewById(R.id.onePlayerHard);
         hardLvlP2 = findViewById(R.id.twoPlayerHard);
-//        topTable = findViewById(R.id.top_table_activity);
-
          easyTV = findViewById(R.id.easy_level);
          medTV = findViewById(R.id.med_level);
          hardTV = findViewById(R.id.hard_level);
@@ -59,14 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         global.initializeMediaPlayer(this);
         sharedPreferences = this.getSharedPreferences("sound",this.MODE_PRIVATE);
         global.muteBackgroudMusic(sharedPreferences.getBoolean("mute_sound", false));
-
-//        sound = findViewById(R.id.soundBtn);
         music =findViewById(R.id.musicBtn);
-//        if(sharedPreferences.getBoolean("mute_tone",false)){
-//            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
-//        } else {
-//            sound.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on_24dp),null,null,null);
-//        }
 
         if(sharedPreferences.getBoolean("mute_music",false)){
             music.setPadding(10, 0, 0, 0);
@@ -74,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }else{
             music.setPadding(10, 0, 0, 0);
-//            music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on),null,null,null);
             music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on),null,null,null);
         }
         binding.topTableActivity.setOnClickListener(view -> {
@@ -83,28 +71,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent.putExtra("fromMain",true);
             startActivity(intent);
         });
-        music.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (sharedPreferences.getBoolean("mute_music", false)) {
-                    music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on), null, null, null);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("mute_music", false);
-                    editor.commit();
-                    global.muteBackgroudMusic(false);
-                    global.playSound(MainActivity.this);
-                } else {
-                    music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_off), null, null, null);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("mute_music", true);
-                    editor.commit();
-                    global.muteBackgroudMusic(true);
-                    global.pauseSong();
-                }
+        music.setOnClickListener(v -> {
+            if (sharedPreferences.getBoolean("mute_music", false)) {
+                music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_on), null, null, null);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("mute_music", false);
+                editor.commit();
+                global.muteBackgroudMusic(false);
+                global.playSound(MainActivity.this);
+            } else {
+                music.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_music_off), null, null, null);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("mute_music", true);
+                editor.commit();
+                global.muteBackgroudMusic(true);
+                global.pauseSong();
             }
         });
-
-
 
         easyLvlP1.setOnClickListener(this);
         easyLvlP2.setOnClickListener(this);
@@ -112,16 +95,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         medLvlP2.setOnClickListener(this);
         hardLvlP1.setOnClickListener(this);
         hardLvlP2.setOnClickListener(this);
-//        topTable.setOnClickListener(this);
     }
-
-
 
     @Override
     public void onClick(View v) {
         Intent intentP1 = new Intent(MainActivity.this, GameActivitySolo.class);
         Intent intentP2 = new Intent(MainActivity.this, GameActivity.class);
-        Intent top_intent = new Intent(MainActivity.this, TopTableActivity.class);
         switch (v.getId()) {
             case R.id.onePlayerEasy:
                 gameMode = "easyP1";
@@ -153,13 +132,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 intentP2.putExtra("level", gameMode);
                 startActivity(intentP2);
                 break;
-            case R.id.top_table_activity:
-                startActivity(top_intent);
-                break;
+
         }
     }
-
-
 
     @Override
     protected void onPause() {

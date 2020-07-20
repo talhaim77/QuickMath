@@ -21,14 +21,13 @@ import com.tyl.quickmath.MainActivity;
 import com.tyl.quickmath.Person;
 import com.tyl.quickmath.R;
 import com.tyl.quickmath.ScoreTableAdapter;
-import com.tyl.quickmath.TopTableActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EasyFragment extends Fragment {
 
-List<Person> personList;
+    List<Person> personList;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -41,7 +40,7 @@ List<Person> personList;
         sharedPreferences = getActivity().getSharedPreferences("sound", getActivity().MODE_PRIVATE);
 
         personList = new ArrayList<>();
-        //Top5
+        //Top10
         personList.add(0,new Person(sharedPreferences.getString("e_score1_name",""),sharedPreferences.getInt("e_score1",0)));
         personList.add(1,new Person(sharedPreferences.getString("e_score2_name",""),sharedPreferences.getInt("e_score2",0)));
         personList.add(2,new Person(sharedPreferences.getString("e_score3_name",""),sharedPreferences.getInt("e_score3",0)));

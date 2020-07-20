@@ -42,6 +42,8 @@ TODO:
 public class GameActivitySolo extends AppCompatActivity {
     GlobalClass global;
     MediaPlayer mediaPlayer;
+    LottieAnimationView winAnim;
+    View dialView;
     TextView timeCountDownP1;
     TextView scoreTextP1;
     TextView questionTextP1;
@@ -51,21 +53,19 @@ public class GameActivitySolo extends AppCompatActivity {
     Button playAgainButton;
     GifTextView gifImageView;
     CountDownTimer countDown;
-    boolean isActive;
-    int answerIndex, minOfTop10;
-    int count_the_question;
+    boolean isEasy,isMed,isHard;
+    private int answerIndex, minOfTop10;
+    private int count_the_question;
+    private int scoreP1 = 0;
     String gameLvl;
     String appLanguage;
-    boolean isEasy,isMed,isHard;
     ArrayList<Integer> questionArray;
-    ImageButton backDialog;
+//    ImageButton backDialog;
     AnswerArrays numArrays, medArrays;
-    private int scoreP1 = 0;
     SharedPreferences sharedPreferences;
     private boolean new_high_score;
     private List<Person> scoresArray;
-    LottieAnimationView winAnim;
-    View dialView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         global = GlobalClass.getInstance();
@@ -85,7 +85,6 @@ public class GameActivitySolo extends AppCompatActivity {
 
         labelsP1 = findViewById(R.id.labelsP1);
 
-        backDialog = findViewById(R.id.return_to_menu);
         gifImageView = findViewById(R.id.start_gif);
         winAnim = findViewById(R.id.winsolo);
 
@@ -133,15 +132,11 @@ public class GameActivitySolo extends AppCompatActivity {
         hideViewsForAnim();
         showView(gifImageView);
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                isActive = true; //set game state to active
-                hideView(gifImageView);
-                showViewsForAnim();
-                startTimer();
-                nextQuestion();
-            }
+        handler.postDelayed(() -> {
+            hideView(gifImageView);
+            showViewsForAnim();
+            startTimer();
+            nextQuestion();
         }, 5000);
 
     }
@@ -193,7 +188,6 @@ public class GameActivitySolo extends AppCompatActivity {
             }, 8000);
 
         }
-
     }
 public void checkAnswerP1(View view) {
     disableBtns();
@@ -211,7 +205,6 @@ public void checkAnswerP1(View view) {
         if(scoreP1>0){
             scoreP1--;
             scoreTextP1.setText(Integer.toString(scoreP1));
-
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(GameActivitySolo.this,R.style.WrongDialog);
         dialView = getLayoutInflater().inflate(R.layout.wrong_ans_dialog, null);
@@ -225,12 +218,10 @@ public void checkAnswerP1(View view) {
             }
             @Override
             public void onFinish() {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         }.start();
         enableBtns();
-
     }
 
 
@@ -252,11 +243,10 @@ public void checkAnswerP1(View view) {
 
 
     private void startTimer () {
-
         int millisInFuture = 0;
         switch (gameLvl) {
             case "easyP1":
-                millisInFuture = 5000;
+                millisInFuture = 35000;
                 break;
             case "mediumP1":
                 millisInFuture = 40000;
@@ -293,11 +283,8 @@ public void checkAnswerP1(View view) {
                         }
                     }, 300);
                 }
-
                 //Show playAgain button
                 showView(playAgainButton);
-                //Set gamestate to inactive
-                isActive = false;
             }
         }.start();
 
@@ -317,24 +304,17 @@ public void checkAnswerP1(View view) {
                     final EditText userEt = dialogview.findViewById(R.id.username);
                     final AlertDialog dialog = builder.create();
                     dialog.show();
-//                    final RelativeLayout container = dialogview.findViewById(R.id.highscore_layout);
 
-
-                    Button returnBtn = dialogview.findViewById(R.id.return_to_game);
-                    final Intent top_intent = new Intent(GameActivitySolo.this, TopTableActivity.class);
-                    top_intent.putExtra("level", gameLvl);
-
-                    returnBtn.setOnClickListener(new View.OnClickListener() {
+                    Button saveBtn = dialogview.findViewById(R.id.return_to_game);
+                    saveBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //to do : update shared prefferences with name and picture
                             String username = userEt.getText().toString();
-                            scoresArray.add(5, new Person(username, scoreP1));
+                            scoresArray.add(10, new Person(username, scoreP1));
                             updateHighScore();
                             scoreP1 = 0;
                             new_high_score = false;
                             dialog.dismiss();
-//                            startActivity(top_intent);
                             Intent i = new Intent(GameActivitySolo.this, FragmentViewPagerActivity.class);
                             if(isEasy){
                                 i.putExtra("frgToLoad",0);
@@ -343,16 +323,19 @@ public void checkAnswerP1(View view) {
                                 i.putExtra("frgToLoad", 1);
                             else
                                 i.putExtra("frgToLoad", 2);
-
                             i.putExtra("fromMain",false);
                             startActivity(i);
-
                         }
                     });
-
+                    Button backBtn = dialogview.findViewById(R.id.play_without_save);
+                    backBtn.setOnClickListener(v -> {
+                        dialog.dismiss();
+                        playWithOutSave();
+                    });
                 }
             }, 0);
-        } else //game over,do nothing
+        }
+        else //game over,do nothing
         {
             hideView(answerLayoutP1);
             hideView(questionTextP1);
@@ -365,10 +348,21 @@ public void checkAnswerP1(View view) {
 
     }
 
+    private void playWithOutSave() {
+        //to be executed by playAgainButton
+        showView(timeCountDownP1);
+        hideView(winAnim);
+        count_the_question = 0;
+        //reset the player score
+        scoreP1 = 0;
+        scoreTextP1.setText(Integer.toString(scoreP1));
+        enableBtns();
+        startGame();
+    }
+
     private void updateHighScore () {
 
         Collections.sort(scoresArray);
-
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if(isEasy){
             editor.putInt("e_score1",scoresArray.get(0).getScore());
@@ -556,8 +550,6 @@ public void checkAnswerP1(View view) {
             scoresArray.add(new Person(sharedPreferences.getString("h_score9_name", "Player"), sharedPreferences.getInt("h_score9", 0)));
             scoresArray.add(new Person(sharedPreferences.getString("h_score10_name", "Player"), sharedPreferences.getInt("h_score10", 0)));
         }
-
-
     }
 
 
@@ -581,7 +573,7 @@ public void checkAnswerP1(View view) {
             int answer = 0;
             double hardAnswer = 0;
             int questionType = 0;
-            if (gameLvl.equals("easyP1")) {
+            if (isEasy) {
                 questionType = random.nextInt(2); // get question type
                 switch (questionType) {
                     case 0:
@@ -598,7 +590,7 @@ public void checkAnswerP1(View view) {
                         operation = "-";
                         break;
                 }
-            } else if (gameLvl.equals("mediumP1")) {
+            } else if (isMed) {
                 questionType = random.nextInt(3); // get question type
                 switch (questionType) {
                     case 0:

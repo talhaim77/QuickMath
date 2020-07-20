@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name" translatable="false">Math Battle</string>
+    <string name="newhscore">New high score</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="title_fragment_slider">TOP USERS</string>
+    <string name="easy">EASY</string>
+    <string name="medium">MEDIUM</string>
+    <string name="hard">HARD</string>
+    <string name="best_players">Best Players</string>
+    <string name="round">Round</string>
+    <string name="timer">Timer</string>
+    <string name="score">Score</string>
+    <string name="play_again">Play Again!</string>
+    <string name="game_over">Game Over</string>
+    <string name="save">SAVE</string>
+    <string name="back">BACK</string>
+    <string name="button">Button</string>
+    <string name="questiondes">1 + 1</string>
+    <string name="top_players">TOP PLAYERS</string>
+    <string name="oneplayer">1P</string>
+    <string name="twoplayer">2P</string>
+    <string name="home">HOME</string>
+
+</resources>
